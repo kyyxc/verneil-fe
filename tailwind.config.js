@@ -9,9 +9,12 @@ export default {
       fontFamily: {
         caveat: ["Caveat", 'serif'],
         montserrat: ["Montserrat", 'serif'],
+        apple: ["-apple-system", "BlinkMacSystemFont", "sans-serif"]
       },
       colors: {
-        bg: "#4F4D4D"
+        bg: "#4F4D4D",
+        btn: "#363636",
+        1: "#f5f5f5"
       }
     },
   },
