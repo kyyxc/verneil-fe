@@ -15,6 +15,10 @@ export default function ShowPage() {
   return (
     <div className="">
       <HomePage></HomePage>
+
+      <Link to="/">
+        <i class="bi bi-x text-1 fixed top-0 right-6 text-[42px] z-50"></i>
+      </Link>
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 shadow-sm shadow-slate-200 -translate-y-1/2 flex w-[80%] h-[90%] bg-black">
         <div className="w-[50%] text-1">
           <div className="h-full">
@@ -39,7 +43,7 @@ export default function ShowPage() {
                 </div>
               </div>
             </div>
-            <hr className="mt-2 border-t border-t-slate-800" />
+            <hr className="mt-2 border-t border-btn" />
           </div>
 
           {/* Caption */}
@@ -137,7 +141,7 @@ export default function ShowPage() {
           </div>
 
           <div className="fixed bottom-0 w-[50%] px-2 pb-2 bg-black">
-            <div className="flex justify-between mb-4 px-2 border-t border-t-slate-700 pt-2">
+            <div className="flex justify-between mb-4 px-2 border-t border-t-btn pt-2">
               <div className="flex items-center gap-6">
                 <i
                   className={`bi bi-heart-fill text-[26px] ${
@@ -146,7 +150,7 @@ export default function ShowPage() {
                   onClick={() => setIsLike(!isLike)}
                 ></i>
                 <Link to="/show">
-                  <i className="bi bi-chat text-[26px]"></i>
+                  <i className="bi bi-chat hidden text-[26px]"></i>
                 </Link>
               </div>
 
@@ -154,7 +158,7 @@ export default function ShowPage() {
             </div>
 
             <form action="" className="">
-              <div className="flex justify-around mt-2 border-t border-t-slate-700 pt-2">
+              <div className="flex justify-around mt-2 border-t border-t-btn pt-2">
                 <input
                   type="text"
                   className="w-[80%] bg-transparent outline-none"
@@ -205,7 +209,7 @@ export default function ShowPage() {
                 {isMore ? text : text.slice(0, 50)}
                 <b>...</b>
               </p>
-              <hr className="mt-10 border-t border-t-slate-700" />
+              <hr className="mt-10 border-t border-t-btn" />
             </div> */}
       </div>
     </div>

@@ -8,6 +8,7 @@ import ProfilePage from "./page/profile";
 import RegisterPage from "./page/register";
 import LoginPage from "./page/login";
 import ShowPage from "./page/show";
+import ExplorePage from "./page/explore";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
         <Route path="/show" element={<ShowPage />}></Route>
+        <Route path="/explore" element={<ExplorePage />}></Route>
         <Route path="/profile" element={<ProfilePage />}></Route>
 
         <Route path="/login" element={<LoginPage />}></Route>

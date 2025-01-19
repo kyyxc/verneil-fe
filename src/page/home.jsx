@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NavigationBar from "../components/navigatioBar";
 import BaseLayout from "../components/Layout/baseLayout";
 import { Link } from "react-router-dom";
@@ -6,6 +6,10 @@ import { Link } from "react-router-dom";
 export default function HomePage() {
   const [isLike, setIsLike] = useState(false);
   const [isMore, setIsMore] = useState(false);
+
+  useEffect(() => {
+    document.body.classList.remove('overflow-hidden')
+  },[])
 
   let text =
     "Lorem ipsum dolor, sit amet consectetur adipisicing elit.Excepturi quasi quibusdam commodi vitae voluptatibus, asperioreseos laborum quo modi, optio reiciendis corporis sint distinctio  placeat recusandae? Eaque accusantium nulla dolorem?";
@@ -59,7 +63,7 @@ export default function HomePage() {
                 {isMore ? text : text.slice(0, 50)}
                 <b>...</b>
               </p>
-              <hr className="mt-10 border-t border-t-slate-700" />
+              <hr className="mt-10 border-t border-t-btn" />
             </div>
           </div>
 
