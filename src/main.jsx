@@ -11,7 +11,7 @@ import ShowPage from "./page/show";
 import ExplorePage from "./page/explore";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // <StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
@@ -23,5 +23,5 @@ createRoot(document.getElementById("root")).render(
         <Route path="/register" element={<RegisterPage />}></Route>
       </Routes>
     </BrowserRouter>
-  </StrictMode>
+  // </StrictMode>
 );
