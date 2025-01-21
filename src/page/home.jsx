@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
 import NavigationBar from "../components/navigatioBar";
 import BaseLayout from "../components/Layout/baseLayout";
-import { Link } from "react-router-dom";
 import { ax } from "../api/authentication";
 import Post from "../components/Fragments/Post";
+import { usePostContext } from "../context/PostProvide";
 
 export default function HomePage() {
-  const [isLike, setIsLike] = useState(false);
-  const [isMore, setIsMore] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isHasMorePost, setIsHasMorePost] = useState(true);
-  const [page, setPage] = useState(0);
-  const [posts, setPosts] = useState([]);
+  const {
+    posts,
+    setPosts,
+    isHasMorePost,
+    setIsHasMorePost,
+    page,
+    setPage,
+    isPostsFetched,
+    setIsPostsFetched,
+  } = usePostContext();
 
   const getPosts = async (page = 0) => {
     try {
@@ -34,15 +39,20 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    if (!isLoading) getPosts(page);
+    if (!isLoading && !isPostsFetched) {
+      getPosts(page);
+      setIsPostsFetched(true);
+    }
   }, [page]);
 
   const handleNext = async () => {
     if (
       document.documentElement.scrollTop + window.innerHeight >=
         document.documentElement.scrollHeight &&
-      !isLoading
+      !isLoading &&
+      isHasMorePost
     ) {
+      setIsPostsFetched(false);
       setPage((prev) => (prev += 1));
       console.log(page);
     }
@@ -66,10 +76,7 @@ export default function HomePage() {
         <NavigationBar />
         <main className="w-full lg:flex sm:ml-[76px] lg:ml-[240px] flex-1">
           <div className="flex flex-wrap justify-center lg:flex-[2] mt-20">
-            {posts &&
-              posts.map((post) => (
-                <Post key={post.id} post={post} />
-              ))}
+            {posts && posts.map((post) => <Post key={post.id} post={post} />)}
           </div>
 
           <div className="lg:flex-[1] hidden lg:block mt-10">

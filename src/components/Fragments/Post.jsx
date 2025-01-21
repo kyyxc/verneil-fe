@@ -38,7 +38,7 @@ export default function Post({ post }) {
             }`}
             onClick={() => setIsLiked(!isLiked)}
           ></i>
-          <Link to="/show">
+          <Link to={`/show/${post.id}`}>
             <i className="bi bi-chat text-[26px]"></i>
           </Link>
         </div>
@@ -51,7 +51,6 @@ export default function Post({ post }) {
         onClick={() => setIsMore(!isMore)}
       >
         {post.caption}
-        {/* {isMore ? post.caption : post.caption.slice(0, 50)} */}
         <b>...</b>
       </p>
       <hr className="mt-10 border-t border-t-btn" />
