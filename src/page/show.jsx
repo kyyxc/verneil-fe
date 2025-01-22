@@ -27,6 +27,30 @@ export default function ShowPage() {
     }
   };
 
+  const handleLike = async () => {
+    try {
+      const res = await ax.post(
+        `/api/v1/posts/${id}/like`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+
+      if (res.data.status == "like") {
+        setPost({ ...post, is_liked: true, likes_count: post.likes_count + 1 });
+      } else {
+        setPost({
+          ...post,
+          is_liked: false,
+          likes_count: post.likes_count - 1,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     document.body.classList.add("overflow-hidden");
   }, []);
@@ -112,12 +136,20 @@ export default function ShowPage() {
             <div className="fixed bottom-0 w-[50%] px-2 pb-2 bg-black">
               <div className="flex justify-between mb-4 px-2 border-t border-t-btn pt-2">
                 <div className="flex items-center gap-6">
-                  <i className={`bi bi-heart-fill text-[26px]`}></i>
+                  <i
+                    className={`bi bi-heart-fill text-[26px] ${
+                      post.is_liked ? "text-red-700" : ""
+                    }`}
+                    onClick={handleLike}
+                  ></i>
+
                   <Link to="/show">
                     <i className="bi bi-chat hidden text-[26px]"></i>
                   </Link>
                 </div>
-
+                <p className="px-2 mt-2.5 text-sm text-1">
+                  {post.likes_count} Likes
+                </p>
                 <i className="bi bi-bookmark text-[26px]"></i>
               </div>
 

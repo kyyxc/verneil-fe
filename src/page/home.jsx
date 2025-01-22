@@ -16,6 +16,7 @@ export default function HomePage() {
     setPage,
     isPostsFetched,
     setIsPostsFetched,
+    setLikedPost,
   } = usePostContext();
 
   const getPosts = async (page = 0) => {
@@ -28,6 +29,10 @@ export default function HomePage() {
       });
       if (res.data.length > 0) {
         setPosts((prev) => [...prev, ...res.data]);
+        setLikedPost((prev) => [
+          ...prev,
+          ...res.data.filter((post) => post.is_liked).map((post) => post.id),
+        ]);
       } else {
         setIsHasMorePost(false);
       }
@@ -54,7 +59,6 @@ export default function HomePage() {
     ) {
       setIsPostsFetched(false);
       setPage((prev) => (prev += 1));
-      console.log(page);
     }
   };
 
@@ -67,16 +71,16 @@ export default function HomePage() {
     return () => window.removeEventListener("scroll", handleNext);
   }, [handleNext]);
 
-  let text =
-    "Lorem ipsum dolor, sit amet consectetur adipisicing elit.Excepturi quasi quibusdam commodi vitae voluptatibus, asperioreseos laborum quo modi, optio reiciendis corporis sint distinctio  placeat recusandae? Eaque accusantium nulla dolorem?";
-
   return (
     <>
       <BaseLayout>
         <NavigationBar />
         <main className="w-full lg:flex sm:ml-[76px] lg:ml-[240px] flex-1">
           <div className="flex flex-wrap justify-center lg:flex-[2] mt-20">
-            {posts && posts.map((post) => <Post key={post.id} post={post} />)}
+            {posts &&
+              posts.map((post) => (
+                <Post key={post.id} post={post}/>
+              ))}
           </div>
 
           <div className="lg:flex-[1] hidden lg:block mt-10">
