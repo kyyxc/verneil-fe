@@ -7,7 +7,8 @@ export const PostProvider = ({ children }) => {
   const [isHasMorePost, setIsHasMorePost] = useState(true);
   const [page, setPage] = useState(0);
   const [isPostsFetched, setIsPostsFetched] = useState(false);
-  const [likedPost, setLikedPost] = useState([]);
+  const [tabStatus, setTabStatus] = useState(true);
+  const [isSearching, setIsSearching] = useState(true);
 
   return (
     <PostContext.Provider
@@ -20,8 +21,10 @@ export const PostProvider = ({ children }) => {
         setPage,
         isPostsFetched,
         setIsPostsFetched,
-        likedPost,
-        setLikedPost,
+        tabStatus,
+        setTabStatus,
+        isSearching,
+        setIsSearching
       }}
     >
       {children}

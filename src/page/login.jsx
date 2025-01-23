@@ -10,7 +10,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setErrors({})
+    setErrors({});
 
     const data = {
       email: e.currentTarget.email.value,
@@ -24,7 +24,10 @@ export default function LoginPage() {
       localStorage.setItem("user", JSON.stringify(res.data.user));
       navigate("/");
     } catch (err) {
-      setErrors({...err.response.data.errors, message : err.response.data.message});
+      setErrors({
+        ...err.response.data.errors,
+        message: err.response.data.message,
+      });
     }
   };
 
@@ -49,7 +52,9 @@ export default function LoginPage() {
               name="email"
             />
             {errors?.email && (
-              <p className="text-red-400 mt-1.5 italic text-sm">{errors.email}</p>
+              <p className="text-red-400 mt-1.5 italic text-sm">
+                {errors.email}
+              </p>
             )}
           </div>
           <div className="w-80 mb-3">
@@ -61,10 +66,14 @@ export default function LoginPage() {
               id="password"
             />
             {errors?.password && (
-              <p className="text-red-400 mt-1.5 italic text-sm">{errors.password}</p>
+              <p className="text-red-400 mt-1.5 italic text-sm">
+                {errors.password}
+              </p>
             )}
             {errors?.message && (
-              <p className="text-red-400 mt-1.5 italic text-sm">{errors.message}</p>
+              <p className="text-red-400 mt-1.5 italic text-sm">
+                {errors.message}
+              </p>
             )}
           </div>
           <input
@@ -75,7 +84,10 @@ export default function LoginPage() {
         </form>
 
         <p className="text-center text-1 mt-10">
-          Don't have account ? <Link to="/register" className="text-blue-600 hover:underline">Sign Up</Link>
+          Don't have account ?{" "}
+          <Link to="/register" className="text-blue-600 hover:underline">
+            Sign Up
+          </Link>
         </p>
       </div>
     </div>
