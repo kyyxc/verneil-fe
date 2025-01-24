@@ -3,10 +3,9 @@ import HomePage from "./home";
 import { useEffect, useState } from "react";
 import { ax } from "../api/authentication";
 import { usePostContext } from "../context/PostProvide";
-import { comment } from "postcss";
 
 export default function ShowPage() {
-  const { posts, setPosts } = usePostContext();
+  const { setPosts } = usePostContext();
   const { id } = useParams();
   const [post, setPost] = useState();
   const [body, setBody] = useState("");
@@ -95,11 +94,10 @@ export default function ShowPage() {
   };
 
   useEffect(() => {
-    console.log(post);
-  }, [post]);
-
-  useEffect(() => {
     document.body.classList.add("overflow-hidden");
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
   }, []);
 
   return (

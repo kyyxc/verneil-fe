@@ -93,21 +93,15 @@ export default function HomePage() {
           )
         );
       }
-    } catch (err) {
+    } catch (err) {I
       console.log(err);
     }
   };
 
   useEffect(() => {
-    document.body.classList.remove("overflow-hidden");
-  }, []);
-
-  useEffect(() => {
     window.addEventListener("scroll", handleNext);
     return () => window.removeEventListener("scroll", handleNext);
   }, [handleNext]);
-
-
 
   return (
     <>
