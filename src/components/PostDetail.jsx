@@ -4,8 +4,9 @@ import PostComment from "./PostComment";
 
 const PostDetail = ({ post, handleLike }) => {
   return (
-    <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 shadow-sm shadow-slate-200 -translate-y-1/2 flex w-[80%] h-[90%] bg-black">
-      <div className="w-[50%] text-1">
+    <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 shadow-sm shadow-slate-200 -translate-y-1/2 flex flex-col sm:flex-row w-[80%] h-[90%] bg-black">
+      
+      <div className="flex-1 text-1">
         <div className="h-full">
           {post.media.map((media) => (
             <img
@@ -18,7 +19,7 @@ const PostDetail = ({ post, handleLike }) => {
         </div>
       </div>
 
-      <div className="w-[50%] text-1">
+      <div className="flex-1 text-1 hidden sm:flex">
         <PostHeader post={post} />
 
         <PostComment post={post} handleLike={handleLike}></PostComment>

@@ -13,7 +13,7 @@ const PostCard = ({ post, handleLike }) => {
         <div className="">
           <div className="ml-3 flex">
             <h3 className="text-1 text-sm font-semibold">
-              {post.user.username}
+              <Link to={`/${post.user.username}`}>{post.user.username}</Link>
             </h3>
             <p className="ml-2.5 text-1 text-sm">● 1 hour</p>
           </div>

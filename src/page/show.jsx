@@ -5,15 +5,24 @@ import { ax } from "../api/authentication";
 import { usePostContext } from "../context/PostProvide";
 import { LikePost } from "../api/post";
 import PostDetail from "../components/PostDetail";
+import ExplorePage from "./explore";
+import { useRouteContext } from "../context/RouteContext";
 
 export default function ShowPage() {
   const { setPosts } = usePostContext();
   const { id } = useParams();
   const [post, setPost] = useState();
+  const { prevLocation } = useRouteContext();
+  const [prev, setPrev] = useState("/");
 
   useEffect(() => {
     getPost();
+    setPrev(prevLocation?.pathname || "/");
   }, [id]);
+
+  useEffect(() => {
+    console.log(prev);
+  }, [prev]);
 
   const getPost = async () => {
     try {
@@ -40,13 +49,20 @@ export default function ShowPage() {
   }, []);
 
   return (
-    <div>
-      <HomePage></HomePage>
+    <>
+      {prev && (
+        <>
+          <div className="opacity-30">
+            {prev == "/" && <HomePage></HomePage>}
+            {prev == "/explore" && <ExplorePage></ExplorePage>}
+          </div>
 
-      <Link to="/">
-        <i className="bi bi-x text-1 fixed top-0 right-6 text-[42px] z-50"></i>
-      </Link>
-      {post && <PostDetail post={post} handleLike={handleLike} />}
-    </div>
+          <Link to={prev}>
+            <i className="bi bi-x text-1 fixed top-0 right-6 text-[42px] z-50"></i>
+          </Link>
+          {post && <PostDetail post={post} handleLike={handleLike} />}
+        </>
+      )}
+    </>
   );
 }

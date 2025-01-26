@@ -3,11 +3,12 @@ import NavigationBar from "../components/navigatioBar";
 import BaseLayout from "../components/Layout/baseLayout";
 import { ax } from "../api/authentication";
 import { usePostContext } from "../context/PostProvide";
-import { Link } from "react-router-dom";
 import PostList from "../components/PostList";
+import Suggested from "../components/Suggested";
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [suggested, setSuggested] = useState(false);
   const {
     posts,
     setPosts,
@@ -18,6 +19,7 @@ export default function HomePage() {
     isPostsFetched,
     setIsPostsFetched,
   } = usePostContext();
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const getPosts = async (page = 0) => {
     try {
@@ -40,13 +42,17 @@ export default function HomePage() {
   };
 
   useEffect(() => {
+    getSuggested();
+  }, []);
+
+  useEffect(() => {
     if (!isLoading && !isPostsFetched) {
       getPosts(page);
       setIsPostsFetched(true);
     }
   }, [page]);
 
-  const handleNext = async () => {
+  const handleNext = () => {
     if (
       document.documentElement.scrollTop + window.innerHeight >=
         document.documentElement.scrollHeight &&
@@ -55,6 +61,19 @@ export default function HomePage() {
     ) {
       setIsPostsFetched(false);
       setPage((prev) => (prev += 1));
+    }
+  };
+
+  const getSuggested = async () => {
+    try {
+      const res = await ax.get(`api/v1/users/${user.username}/suggested`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setSuggested(res.data.users);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -71,21 +90,7 @@ export default function HomePage() {
           <PostList posts={posts} setPosts={setPosts} />
 
           <div className="lg:flex-[1] hidden lg:block mt-10">
-            <div className="gap-5 flex flex-col">
-              <div className="flex items-center">
-                <img
-                  src="/images/faixfey.jpg"
-                  alt=""
-                  className="w-[50px] h-[50px] rounded-full"
-                />
-                <div className="">
-                  <div className="ml-3 flex">
-                    <h3 className="text-1 text-sm font-semibold">Kyyvrx</h3>
-                  </div>
-                  <h5 className="ml-3 text-xs text-1">Suggested</h5>
-                </div>
-              </div>
-            </div>
+            {suggested && <Suggested suggested={suggested} />}
           </div>
         </main>
       </BaseLayout>

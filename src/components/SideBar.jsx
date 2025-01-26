@@ -68,7 +68,7 @@ const SideBar = ({
             label="Create"
           />
           <Link
-            to="/profile"
+            to={`/${user.username}`}
             className="flex items-center sm:mt-2.5 sm:justify-center lg:justify-normal sm:w-full hover:bg-white/10 px-2 py-1.5 rounded-lg"
           >
             <img

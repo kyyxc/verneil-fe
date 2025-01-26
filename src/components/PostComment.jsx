@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ax } from "../api/authentication";
+import { Link } from "react-router-dom";
 
 const PostComment = ({ post, handleLike }) => {
   const [body, setBody] = useState("");
@@ -32,12 +33,13 @@ const PostComment = ({ post, handleLike }) => {
             />
           </div>
           <div className="flex flex-1">
-            <h3 className="text-1 text-sm font-semibold">
-              {post.user.username}{" "}
-              <p className="font-normal inline text-slate-300">
+            <div className="text-1 text-sm font-semibold">
+              <Link to={`/${post.user.username}`}>{post.user.username}</Link>
+
+              <p className="font-normal ml-2 inline text-slate-300">
                 {post.caption}
               </p>
-            </h3>
+            </div>
           </div>
         </div>
         {post.comments &&
@@ -51,12 +53,14 @@ const PostComment = ({ post, handleLike }) => {
                 />
               </div>
               <div className="flex flex-1">
-                <h3 className="text-1 text-sm font-semibold">
-                  {comment.user.username}{" "}
-                  <p className="font-normal inline text-slate-300">
+                <div className="text-1 text-sm font-semibold">
+                  <Link to={`/${comment.user.username}`}>
+                    {comment.user.username}
+                  </Link>
+                  <p className="font-normal ml-2 inline text-slate-300">
                     {comment.body}
                   </p>
-                </h3>
+                </div>
               </div>
             </div>
           ))}

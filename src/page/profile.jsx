@@ -5,13 +5,15 @@ import { useEffect, useState } from "react";
 import UserProfileStat from "../components/UserProfileStat";
 import UserPost from "../components/UserPost";
 import UserProfileHeader from "../components/UserProfileHeader";
+import { useParams } from "react-router-dom";
 
 export default function ProfilePage() {
+  const { username } = useParams();
   const [user, setUser] = useState();
 
   const getUser = async () => {
     try {
-      const res = await ax.get("api/v1/users/kyyvrz", {
+      const res = await ax.get(`api/v1/users/${username}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -25,7 +27,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [username]);
 
   return (
     <>
@@ -42,7 +44,7 @@ export default function ProfilePage() {
               <UserProfileStat user={user}></UserProfileStat>
               <hr className="mt-2.5 lg:mt-10 border-t border-t-btn" />
               <div className="mt-10">
-                  <UserPost posts={user.posts}></UserPost>
+                <UserPost posts={user.posts}></UserPost>
               </div>
             </div>
           </div>

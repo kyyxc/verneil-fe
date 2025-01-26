@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const PostHeader = ({ post }) => {
   return (
@@ -11,7 +12,7 @@ const PostHeader = ({ post }) => {
         />
         <div className="">
           <div className="ml-3.5 flex">
-            <h3 className="text-1 text-sm font-semibold">Kyyvrx</h3>
+            <Link to={`/${post.user.username}`} className="text-1 text-sm font-semibold">{post.user.username}</Link>
           </div>
         </div>
       </div>

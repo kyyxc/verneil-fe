@@ -8,7 +8,7 @@ import SearchPanel from "./SearchPanel";
 export default function NavigationBar() {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
+
   const {
     isSearching,
     setIsSearching,

@@ -3,7 +3,7 @@ import React from 'react'
 const SearchPanel = ({isSearching}) => {
   return (
     <div
-    className={`bg-black absolute top-0 w-96 h-screen p-6 ${
+    className={`bg-black fixed hidden sm:block top-0 w-96 h-screen p-6 ${
       isSearching ? "left-[76px]" : "left-[-500px]"
     } transition-all  duration-500`}
   >
