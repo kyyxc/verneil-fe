@@ -78,6 +78,7 @@ const PostComment = ({ post, handleLike }) => {
           <i className="bi bi-bookmark text-[26px]"></i>
         </div>
         <p className="px-2 text-sm text-1">{post.likes_count} Likes</p>
+        <p className="px-2 text-sm text-slate-400">{post.created_at_ago}</p>
 
         <form onSubmit={handleComment}>
           <div className="flex justify-around mt-2 border-t border-t-btn pt-2">

@@ -23,6 +23,7 @@ function App() {
               <Route path="/explore" element={<ExplorePage />}></Route>
               <Route path="/:username" element={<ProfilePage />}></Route>
               <Route path="/message" element={<MessagePage />}></Route>
+              <Route path="/message/:username" element={<MessagePage />}></Route>
 
               <Route path="/login" element={<LoginPage />}></Route>
               <Route path="/register" element={<RegisterPage />}></Route>

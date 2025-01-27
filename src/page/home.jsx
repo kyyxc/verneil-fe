@@ -44,6 +44,10 @@ export default function HomePage() {
   useEffect(() => {
     getSuggested();
   }, []);
+  useEffect(() => {
+    console.log(posts);
+
+  }, [posts]);
 
   useEffect(() => {
     if (!isLoading && !isPostsFetched) {
@@ -85,7 +89,6 @@ export default function HomePage() {
   return (
     <>
       <BaseLayout>
-        <NavigationBar />
         <main className="w-full lg:flex sm:ml-[76px] lg:ml-[240px] flex-1">
           <PostList posts={posts} setPosts={setPosts} />
 

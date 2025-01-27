@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import ExploreCard from "../components/ExploreCard";
 import BaseLayout from "../components/Layout/baseLayout";
-import NavigationBar from "../components/navigatioBar";
 import { ax } from "../api/authentication";
 import { useExploreContext } from "../context/ExploreContext";
 
@@ -62,8 +61,6 @@ export default function ExplorePage() {
 
   return (
     <BaseLayout>
-      <NavigationBar />
-
       <div className="flex-1 lg:flex sm:ml-[76px] lg:ml-[240px] sm:flex sm:flex-col">
         <div className="p-4">
           <div className="grid grid-cols-3 gap-1 mb-20">

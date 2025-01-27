@@ -1,4 +1,4 @@
-import NavigationBar from "../components/navigatioBar";
+
 import BaseLayout from "../components/Layout/baseLayout";
 import { ax } from "../api/authentication";
 import { useEffect, useState } from "react";
@@ -32,7 +32,6 @@ export default function ProfilePage() {
   return (
     <>
       <BaseLayout>
-        <NavigationBar />
         {user && (
           <div className="flex-1 lg:flex sm:ml-[76px] lg:ml-[240px] sm:flex sm:flex-col">
             <div className="fixed top-0 bg-black w-full sm:hidden text-center p-2 border-b font-semibold border-b-btn">
@@ -40,7 +39,7 @@ export default function ProfilePage() {
             </div>
 
             <div className="mt-16 sm:mt-8 sm:px-4 lg:mx-6">
-              <UserProfileHeader user={user}></UserProfileHeader>
+              <UserProfileHeader user={user} setUser={setUser}></UserProfileHeader>
               <UserProfileStat user={user}></UserProfileStat>
               <hr className="mt-2.5 lg:mt-10 border-t border-t-btn" />
               <div className="mt-10">

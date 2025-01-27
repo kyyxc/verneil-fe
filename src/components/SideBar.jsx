@@ -9,6 +9,7 @@ const SideBar = ({
   handleSearchTab,
   setIsOpenMenu,
   handleLogout,
+  setCreateStatus
 }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   return (

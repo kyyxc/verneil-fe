@@ -1,6 +1,7 @@
 import React from "react";
+import StatusFollowing from "./StatusFollowing";
 
-const UserProfileHeader = ({user}) => {
+const UserProfileHeader = ({user, setUser}) => {
   return (
     <div className="flex px-4 sm:px-0">
       <div className="sm:flex-[1] sm:flex sm:justify-center sm:items-center">
@@ -13,18 +14,7 @@ const UserProfileHeader = ({user}) => {
       <div className="ml-5 sm:mt-4 sm:flex-[2] self-center">
         <div className="sm:flex sm:items-center">
           <div className="text-1 text-xl mb-2.5 sm:mb-0">{user.username}</div>
-          <div className="flex gap-5 sm:ml-8">
-            <input
-              type="button"
-              value="Follow"
-              className="bg-btn px-4 py-1 rounded-md"
-            />
-            <input
-              type="button"
-              value="Message"
-              className="bg-btn px-4 py-1 rounded-md"
-            />
-          </div>
+          <StatusFollowing user={user} setUser={setUser}></StatusFollowing>
         </div>
         <div className="hidden sm:flex gap-x-16 mt-3.5">
           <div className="sm:flex">

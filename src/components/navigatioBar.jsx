@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { usePostContext } from "../context/PostProvide";
 import Create from "./create";
 import SideBar from "./SideBar";
@@ -44,6 +44,7 @@ export default function NavigationBar() {
         handleLogout={handleLogout}
         handleSearchTab={handleSeachTab}
         tabStatus={tabStatus}
+        setCreateStatus={setCreateStatus}
       ></SideBar>
       <SearchPanel isSearching={isSearching}></SearchPanel>
 

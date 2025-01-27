@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const PostCard = ({ post, handleLike }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleNextSlider = () => {
+    setCurrentIndex(currentIndex + 1);
+  };
+
+  const handlePrevSlider = () => {
+    setCurrentIndex(currentIndex - 1);
+  };
+
   return (
     <div className="w-[468px] flex flex-col justify-center mt-6">
       <div className="flex items-center">
@@ -15,20 +25,32 @@ const PostCard = ({ post, handleLike }) => {
             <h3 className="text-1 text-sm font-semibold">
               <Link to={`/${post.user.username}`}>{post.user.username}</Link>
             </h3>
-            <p className="ml-2.5 text-1 text-sm">● 1 hour</p>
+            <p className="ml-2.5 text-1 text-sm">● {post.created_at_ago}</p>
           </div>
           <h5 className="ml-3 text-xs text-1">{post.user.full_name}</h5>
         </div>
       </div>
-      {post.media &&
-        post.media.map((url) => (
-          <img
-            key={url.id}
-            src={url.url_path}
-            alt=""
-            className="mt-4 rounded-sm w-[468px] h-[585px] object-cover"
-          />
-        ))}
+
+      <div className="flex relative justify-center items-center">
+        {currentIndex != 0 && (
+          <i
+            className="bi bi-caret-left-fill absolute top-1/2 left-2 text-3xl translate-y-1/2"
+            onClick={handlePrevSlider}
+          ></i>
+        )}
+        <img
+          src={post.media[currentIndex].url_path}
+          alt={`Slide `}
+          className="mt-4 rounded-sm w-[468px] h-[585px] object-cover"
+        />
+        {currentIndex + 1 < post.media.length && (
+          <i
+            className="bi bi-caret-right-fill absolute top-1/2 text-3xl right-2 translate-y-1/2"
+            onClick={handleNextSlider}
+          ></i>
+        )}
+      </div>
+
       <div className="flex justify-between mt-2.5 px-2">
         <div className="flex items-center gap-6">
           <i
