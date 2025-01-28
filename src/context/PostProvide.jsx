@@ -10,6 +10,7 @@ export const PostProvider = ({ children }) => {
   const [tabStatus, setTabStatus] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [createStatus, setCreateStatus] = useState(false);
+  const [isOpenLike, setIsOpenLike] = useState(false);
 
   return (
     <PostContext.Provider
@@ -27,7 +28,9 @@ export const PostProvider = ({ children }) => {
         isSearching,
         setIsSearching,
         createStatus,
-        setCreateStatus
+        setCreateStatus,
+        isOpenLike,
+        setIsOpenLike,
       }}
     >
       {children}

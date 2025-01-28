@@ -1,7 +1,7 @@
 import React from "react";
 import StatusFollowing from "./StatusFollowing";
 
-const UserProfileHeader = ({user, setUser}) => {
+const UserProfileHeader = ({user, setUser, setIsOpenFollowers, setIsOpenFollowing}) => {
   return (
     <div className="flex px-4 sm:px-0">
       <div className="sm:flex-[1] sm:flex sm:justify-center sm:items-center">
@@ -22,12 +22,12 @@ const UserProfileHeader = ({user, setUser}) => {
               <b>{user.posts_count}</b> Post
             </p>
           </div>
-          <div className="sm:flex">
+          <div className="sm:flex" onClick={() => setIsOpenFollowers(true)}>
             <p className="text-sm">
               <b>{user.followers_count}</b> followers
             </p>
           </div>
-          <div className="sm:flex">
+          <div className="sm:flex" onClick={() => setIsOpenFollowing(true)}>
             <p className="text-sm">
               <b>{user.following_count}</b> following
             </p>

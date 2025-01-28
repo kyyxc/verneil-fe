@@ -18,6 +18,8 @@ export default function HomePage() {
     setPage,
     isPostsFetched,
     setIsPostsFetched,
+    isOpenLike,
+    setIsOpenLike,
   } = usePostContext();
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -46,7 +48,6 @@ export default function HomePage() {
   }, []);
   useEffect(() => {
     console.log(posts);
-
   }, [posts]);
 
   useEffect(() => {
@@ -90,7 +91,11 @@ export default function HomePage() {
     <>
       <BaseLayout>
         <main className="w-full lg:flex sm:ml-[76px] lg:ml-[240px] flex-1">
-          <PostList posts={posts} setPosts={setPosts} />
+          <PostList
+            posts={posts}
+            setPosts={setPosts}
+  
+          />
 
           <div className="lg:flex-[1] hidden lg:block mt-10">
             {suggested && <Suggested suggested={suggested} />}

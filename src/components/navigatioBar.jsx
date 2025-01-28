@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import { usePostContext } from "../context/PostProvide";
 import Create from "./create";
 import SideBar from "./SideBar";
@@ -27,7 +27,7 @@ export default function NavigationBar() {
 
   const handleSeachTab = () => {
     setIsSearching(!isSearching);
-    location.pathname == "/message"
+    location.pathname == "/message" || matchPath("/message/:username", location.pathname)
       ? setTabStatus(true)
       : setTabStatus(!tabStatus);
   };

@@ -10,26 +10,32 @@ import { PostProvider } from "./context/PostProvide";
 import MessagePage from "./page/message";
 import { ExploreProvider } from "./context/ExploreContext";
 import { RouteProvider } from "./context/RouteContext";
+import { ProfileProvider } from "./context/ProfileContext";
 
 function App() {
   return (
     <PostProvider>
       <ExploreProvider>
-        <BrowserRouter>
-          <RouteProvider>
-            <Routes>
-              <Route path="/" element={<HomePage />}></Route>
-              <Route path="/show/:id" element={<ShowPage />}></Route>
-              <Route path="/explore" element={<ExplorePage />}></Route>
-              <Route path="/:username" element={<ProfilePage />}></Route>
-              <Route path="/message" element={<MessagePage />}></Route>
-              <Route path="/message/:username" element={<MessagePage />}></Route>
+        <ProfileProvider>
+          <BrowserRouter>
+            <RouteProvider>
+              <Routes>
+                <Route path="/" element={<HomePage />}></Route>
+                <Route path="/show/:id" element={<ShowPage />}></Route>
+                <Route path="/explore" element={<ExplorePage />}></Route>
+                <Route path="/:username" element={<ProfilePage />}></Route>
+                <Route path="/message" element={<MessagePage />}></Route>
+                <Route
+                  path="/message/:username"
+                  element={<MessagePage />}
+                ></Route>
 
-              <Route path="/login" element={<LoginPage />}></Route>
-              <Route path="/register" element={<RegisterPage />}></Route>
-            </Routes>
-          </RouteProvider>
-        </BrowserRouter>
+                <Route path="/login" element={<LoginPage />}></Route>
+                <Route path="/register" element={<RegisterPage />}></Route>
+              </Routes>
+            </RouteProvider>
+          </BrowserRouter>
+        </ProfileProvider>
       </ExploreProvider>
     </PostProvider>
   );

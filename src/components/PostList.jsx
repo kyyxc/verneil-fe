@@ -3,7 +3,7 @@ import { ax } from "../api/authentication";
 import PostCard from "./PostCard";
 import { LikePost } from "../api/post";
 
-const PostList = ({ posts, setPosts }) => {
+const PostList = ({ posts, setPosts}) => {
   const handleLike = (id) => {
     LikePost(id, setPosts);
   };

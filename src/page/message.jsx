@@ -4,24 +4,24 @@ import { usePostContext } from "../context/PostProvide";
 import { Link, useParams } from "react-router-dom";
 import { ax } from "../api/authentication";
 import BubbleMessage from "../components/BubbleMessage";
+import ListMessages from "../components/ListMessages";
 
 export default function MessagePage() {
   const { setTabStatus } = usePostContext();
   const { username } = useParams();
   const [messages, setMessages] = useState([]);
+  const [listMessages, setlistMessages] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
   const [body, setBody] = useState("");
 
   useEffect(() => {
     getMessages();
+    getListMessages();
   }, [username]);
 
   useEffect(() => {
     setTabStatus(true);
   }, []);
-  useEffect(() => {
-    console.log(messages);
-  }, [messages]);
 
   const getMessages = async () => {
     try {
@@ -31,6 +31,19 @@ export default function MessagePage() {
         },
       });
       setMessages(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getListMessages = async () => {
+    try {
+      const res = await ax.get(`api/v1/users/message/list`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setlistMessages(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -63,74 +76,65 @@ export default function MessagePage() {
 
   return (
     <BaseLayout>
-      <div className="ml-[76px] relative w-96 bg-slate h-full">
-        <div className="fixed top-0 h-20 px-4 w-96 flex items-center">
-          <h1 className="text-xl text-1">AScdf</h1>
-        </div>
-        <div className="mt-20">
-          <h1 className="font-semibold px-4">Message</h1>
-          <div className="mt-4 hover:bg-white/10 py-0.5 px-4">
-            <div className="flex items-center my-3">
-              <img
-                src="/images/iambluedee7.jpg"
-                className="w-[50px] h-[50px] object-cover rounded-full"
-              />
-              <div>
-                <div className="ml-3 flex">
-                  <h3 className="text-1 text-sm font-semibold">
-                    <Link>dcrgr</Link>
-                  </h3>
-                </div>
-                <h5 className="ml-3 text-xs text-1">dsds</h5>
-              </div>
-            </div>
+      <div className="w-full h-full overflow-hidden flex">
+        <div className="ml-[76px] w-96 relative bg-slate h-full">
+          <div className="fixed top-0 h-20 px-4 w-96 flex bg-black items-center">
+            <h1 className="text-xl text-1">AScdf</h1>
           </div>
-        </div>
-      </div>
-
-      {username && (
-        <div className="flex-1 bg-slate h-screen border-l border-l-btn relative">
-          <div className="absolute top-0 border-b border-b-btn w-full h-20 px-5">
-            <div className="flex items-center my-3">
-              <img
-                src="/images/iambluedee7.jpg"
-                className="w-[50px] h-[50px] rounded-full object-cover"
-              />
-              <div>
-                <Link className="text-1 ml-4 text-sm font-semibold">Lucky</Link>
-              </div>
-            </div>
-          </div>
-          <div className="overflow-y-auto mt-20 h-full max-h-[76%] p-4">
-            {messages &&
-              messages.map((message) => (
-                <BubbleMessage
-                  key={message.id}
-                  message={message}
-                  user={user}
-                ></BubbleMessage>
+          <div className="mt-20 h-full overflow-y-scroll">
+            <h1 className="font-semibold px-4">Message</h1>
+            {listMessages &&
+              listMessages.map((message) => (
+                <ListMessages key={message.id} message={message} user={user} />
               ))}
           </div>
-          <div className="absolute bottom-4 w-full">
-            <form
-              onSubmit={handleMessage}
-              className="w-full  flex justify-center"
-            >
-              <input
-                type="text"
-                className="w-full max-w-[96%] mx-auto px-4 py-2 border rounded-full bg-transparent"
-                placeholder="Message..."
-                name="message"
-                value={body}
-                onChange={(e) => setBody(e.target.value)}
-              />
-              <button type="submit">
-                <p className="text-blue-600">Send</p>
-              </button>
-            </form>
-          </div>
         </div>
-      )}
+
+        {username && (
+          <div className="flex-1 bg-slate h-full border-l border-l-btn">
+            <div className="fixed w-full top-0 border-b border-b-btn  h-20 px-5">
+              <div className="flex items-center my-3">
+                <img
+                  src={`http://127.0.0.1:8000/storage/images/avatar.svg`}
+                  className="w-[50px] h-[50px] rounded-full object-cover"
+                />
+                <div>
+                  <Link className="text-1 ml-4 text-sm font-semibold">
+                    {username}
+                  </Link>
+                </div>
+              </div>
+            </div>
+            <div className="overflow-y-auto mt-20 h-full max-h-[76%] p-4">
+              {messages && messages.length > 0 && 
+                messages.map((message) => (
+                  <BubbleMessage
+                    key={message.id}
+                    message={message}
+                    user={user}
+                  ></BubbleMessage>
+                ))}
+            </div>
+            <div className="flex justify-center">
+              <div class="absolute bottom-4 w-full max-w-[800px] flex justify-center">
+                <form
+                  onSubmit={handleMessage}
+                  className="w-full flex justify-center"
+                >
+                  <input
+                    type="text"
+                    className="sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[90%] px-4 py-2 border rounded-full bg-transparent"
+                    placeholder="Message..."
+                    name="message"
+                    value={body}
+                    onChange={(e) => setBody(e.target.value)}
+                  />
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </BaseLayout>
   );
 }
