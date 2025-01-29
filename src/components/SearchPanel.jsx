@@ -49,7 +49,7 @@ const SearchPanel = ({ isSearching }) => {
           users.map((user) => (
             <div className="flex items-center my-3" key={user.id}>
               <img
-                src={`htpp://127.0.0.1`}
+                src={`http://127.0.0.1:8000/storage/${user.avatar}`}
                 className="w-[50px] h-[50px] rounded-full"
               />
               <div>

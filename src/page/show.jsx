@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, matchPath, useNavigate, useParams } from "react-router-dom";
 import HomePage from "./home";
 import { useEffect, useState } from "react";
 import { ax } from "../api/authentication";
@@ -7,13 +7,21 @@ import { LikePost } from "../api/post";
 import PostDetail from "../components/PostDetail";
 import ExplorePage from "./explore";
 import { useRouteContext } from "../context/RouteContext";
+import ProfilePage from "./profile";
 
 export default function ShowPage() {
-  const { setPosts } = usePostContext();
+  const {
+    setPosts,
+    isOpenMenu,
+    setIsOpenMenu,
+    deleteCommentId,
+    setDeleteCommentId,
+  } = usePostContext();
   const { id } = useParams();
   const [post, setPost] = useState();
   const { prevLocation } = useRouteContext();
   const [prev, setPrev] = useState("/");
+  const navigate = useNavigate();
 
   useEffect(() => {
     getPost();
@@ -41,6 +49,20 @@ export default function ShowPage() {
     LikePost(id, setPosts, setPost);
   };
 
+  const handleDeletePost = async (id) => {
+    try {
+      const res = await ax.delete(`api/v1/posts/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setPosts((prev) => prev.filter((post) => post.id !== id));
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     document.body.classList.add("overflow-hidden");
     return () => {
@@ -52,15 +74,27 @@ export default function ShowPage() {
     <>
       {prev && (
         <>
-          <div className="opacity-30">
+          <div className="opacity-30 pointer-events-none">
             {prev == "/" && <HomePage></HomePage>}
             {prev == "/explore" && <ExplorePage></ExplorePage>}
+            {matchPath("/:username", prev) && <ProfilePage></ProfilePage>}
           </div>
 
           <Link to={prev}>
             <i className="bi bi-x text-1 fixed top-0 right-6 text-[42px] z-50"></i>
           </Link>
-          {post && <PostDetail post={post} handleLike={handleLike} />}
+          {post && (
+            <PostDetail
+              post={post}
+              setPost={setPost}
+              handleLike={handleLike}
+              handleDeletePost={handleDeletePost}
+              isOpenMenu={isOpenMenu}
+              setIsOpenMenu={setIsOpenMenu}
+              deleteCommentId={deleteCommentId}
+              setDeleteCommentId={setDeleteCommentId}
+            />
+          )}
         </>
       )}
     </>

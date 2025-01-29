@@ -5,7 +5,6 @@ import UserProfileStat from "../components/UserProfileStat";
 import UserPost from "../components/UserPost";
 import UserProfileHeader from "../components/UserProfileHeader";
 import { Link, useParams } from "react-router-dom";
-import { usePostContext } from "../context/PostProvide";
 import { userProfileProvider } from "../context/ProfileContext";
 
 export default function ProfilePage() {
@@ -28,8 +27,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     console.log(followers);
-    
-  }, [])
+  }, []);
 
   const getFollowers = async () => {
     try {
@@ -39,7 +37,7 @@ export default function ProfilePage() {
         },
       });
       console.log(res.data.followers);
-      
+
       setFollowers(res.data.followers);
     } catch (err) {
       console.log(err);
@@ -80,7 +78,7 @@ export default function ProfilePage() {
           <>
             <div
               className={`flex-1 lg:flex sm:ml-[76px] lg:ml-[240px] sm:flex sm:flex-col ${
-                isOpenFollowers ? "opacity-30" : ""
+                isOpenFollowers || isOpenFollowing ? "opacity-30" : ""
               }`}
             >
               <div className="fixed top-0 bg-black w-full sm:hidden text-center p-2 border-b font-semibold border-b-btn">
@@ -113,7 +111,7 @@ export default function ProfilePage() {
                     ></i>
                   </div>
                   <div className="p-4 overflow-y-scroll h-full">
-                  {followers.map((user) => (
+                    {followers.map((user) => (
                       <div className="flex items-center my-4">
                         <img
                           src={`http://127.0.0.1:8000/storage/${user.avatar}`}
@@ -128,10 +126,12 @@ export default function ProfilePage() {
                               {user.username}
                             </Link>
                           </div>
-                          <h5 className="ml-3 text-xs text-1">{user.full_name}</h5>
+                          <h5 className="ml-3 text-xs text-1">
+                            {user.full_name}
+                          </h5>
                         </div>
                       </div>
-                  ))}
+                    ))}
                   </div>
                 </div>
               </div>
@@ -148,7 +148,7 @@ export default function ProfilePage() {
                     ></i>
                   </div>
                   <div className="p-4 overflow-y-scroll h-full">
-                  {following.map((user) => (
+                    {following.map((user) => (
                       <div className="flex items-center my-4">
                         <img
                           src={`http://127.0.0.1:8000/storage/${user.avatar}`}
@@ -163,10 +163,12 @@ export default function ProfilePage() {
                               {user.username}
                             </Link>
                           </div>
-                          <h5 className="ml-3 text-xs text-1">{user.full_name}</h5>
+                          <h5 className="ml-3 text-xs text-1">
+                            {user.full_name}
+                          </h5>
                         </div>
                       </div>
-                  ))}
+                    ))}
                   </div>
                 </div>
               </div>

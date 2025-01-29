@@ -18,8 +18,6 @@ export default function HomePage() {
     setPage,
     isPostsFetched,
     setIsPostsFetched,
-    isOpenLike,
-    setIsOpenLike,
   } = usePostContext();
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -40,6 +38,23 @@ export default function HomePage() {
       console.log(err);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleFollow = async (username) => {
+    try {
+      const res = await ax.post(
+        `api/v1/users/${username}/follow`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setSuggested((prev) => prev.filter((user) => user.username != username));
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -91,14 +106,9 @@ export default function HomePage() {
     <>
       <BaseLayout>
         <main className="w-full lg:flex sm:ml-[76px] lg:ml-[240px] flex-1">
-          <PostList
-            posts={posts}
-            setPosts={setPosts}
-  
-          />
-
+          <PostList posts={posts} setPosts={setPosts} />
           <div className="lg:flex-[1] hidden lg:block mt-10">
-            {suggested && <Suggested suggested={suggested} />}
+            {suggested && <Suggested suggested={suggested} handleFollow={handleFollow} />}
           </div>
         </main>
       </BaseLayout>

@@ -45,10 +45,11 @@ export default function ExplorePage() {
   const handleNext = () => {
     if (
       document.documentElement.scrollTop + window.innerHeight >=
-        document.documentElement.scrollHeight &&
+        document.documentElement.scrollHeight - 100 &&
       !isLoading &&
       isHasMore
     ) {
+      console.log('fet');
       setIsPostsFetched(false);
       setPage((prev) => (prev += 1));
     }

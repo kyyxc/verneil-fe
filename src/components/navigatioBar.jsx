@@ -17,6 +17,7 @@ export default function NavigationBar() {
     createStatus,
     setCreateStatus,
   } = usePostContext();
+
   const location = useLocation();
 
   const handleLogout = () => {
@@ -45,6 +46,7 @@ export default function NavigationBar() {
         handleSearchTab={handleSeachTab}
         tabStatus={tabStatus}
         setCreateStatus={setCreateStatus}
+        createStatus={createStatus}
       ></SideBar>
       <SearchPanel isSearching={isSearching}></SearchPanel>
 

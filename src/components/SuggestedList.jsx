@@ -1,6 +1,6 @@
 import React from "react";
 
-const SuggestedList = ({ user }) => {
+const SuggestedList = ({ user, handleFollow }) => {
   return (
     <div className="flex items-center w-full">
       <img
@@ -10,7 +10,7 @@ const SuggestedList = ({ user }) => {
       />
       <div className="ml-3 flex items-center justify-between w-full">
         <h3 className="text-1 text-sm truncate">{user.username}</h3>
-        <p className="text-sm text-blue-700">follow</p>
+        <p className="text-sm text-blue-700" onClick={() => handleFollow(user.username)}>follow</p>
       </div>
     </div>
   );

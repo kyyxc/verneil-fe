@@ -2,20 +2,34 @@ import React from "react";
 import SearchPanel from "./SearchPanel";
 import NavLink from "./NavLink";
 import { Link } from "react-router-dom";
+import { usePostContext } from "../context/PostProvide";
+import { userProfileProvider } from "../context/ProfileContext";
 
 const SideBar = ({
-  isOpenMenu,
+  isOpenMenuNav,
   tabStatus,
   handleSearchTab,
-  setIsOpenMenu,
+  setIsOpenMenuNav,
   handleLogout,
   setCreateStatus,
+  createStatus,
 }) => {
   const user = JSON.parse(localStorage.getItem("user"));
+  const { isOpenLike, isOpenMenu, isDelete } = usePostContext();
+  const { isOpenFollowers, isOpenFollowing } = userProfileProvider();
   return (
     <div
       className={` ${
         tabStatus ? "w-[76px]" : "w-full sm:w-[76px] lg:w-[240px]"
+      } ${
+        isDelete ||
+        isOpenLike ||
+        isOpenMenu ||
+        createStatus ||
+        isOpenFollowers ||
+        isOpenFollowing
+          ? "opacity-20 pointer-events-none duration-0"
+          : ""
       } h-[50px] bottom-0 sm:h-full fixed bg-black flex sm:flex-col sm:border-r transition-all  duration-500 sm:border-r-btn`}
     >
       {/* Header */}
@@ -91,7 +105,7 @@ const SideBar = ({
       {/* More Menu */}
       <div
         className="px-2.5 py-2 mt-auto hidden sm:block"
-        onClick={() => setIsOpenMenu(!isOpenMenu)}
+        onClick={() => setIsOpenMenuNav(!isOpenMenuNav)}
       >
         <div className="flex items-center sm:mt-2.5 sm:justify-center lg:justify-normal sm:w-full hover:bg-white/10 px-2 py-1.5 rounded-lg">
           <i className="bi bi-list text-white text-[26px] lg:ml-1.5"></i>
@@ -107,7 +121,7 @@ const SideBar = ({
 
       {/* Dropdown Menu */}
       <div
-        className={` ${isOpenMenu ? "sm:block" : "hidden"} w-[200px]
+        className={` ${isOpenMenuNav ? "sm:block" : "hidden"} w-[200px]
        rounded-xl p-2.5 bg-btn ml-4 bottom-[4.5rem] fixed z-50 mx-2`}
       >
         <div

@@ -51,11 +51,13 @@ const StatusFollowing = ({ user, setUser }) => {
   if (user.is_your_account) {
     return (
       <div className="flex gap-5 sm:ml-8">
-        <input
-          type="button"
-          value="Edit Profile"
-          className="bg-btn px-4 py-1 rounded-md"
-        />
+        <Link to="/account/edit">
+          <input
+            type="button"
+            value="Edit Profile"
+            className="bg-btn px-4 py-1 rounded-md"
+          />
+        </Link>
         <input
           type="button"
           value="Saved"

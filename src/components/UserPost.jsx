@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const UserPost = ({ posts }) => {
   return (
@@ -6,11 +7,13 @@ const UserPost = ({ posts }) => {
       {posts &&
         posts.map((post) => (
           <div className="h-50" key={post.id}>
-            <img
-              src={post.media[0].url_path}
-              alt=""
-              className="h-full w-full object-cover"
-            />
+            <Link to={`/show/${post.id}`}>
+              <img
+                src={post.media[0].url_path}
+                alt=""
+                className="h-full w-full object-cover"
+              />
+            </Link>
           </div>
         ))}
     </div>

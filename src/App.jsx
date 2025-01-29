@@ -11,6 +11,7 @@ import MessagePage from "./page/message";
 import { ExploreProvider } from "./context/ExploreContext";
 import { RouteProvider } from "./context/RouteContext";
 import { ProfileProvider } from "./context/ProfileContext";
+import EditProfilePage from "./page/edit-profile";
 
 function App() {
   return (
@@ -25,6 +26,10 @@ function App() {
                 <Route path="/explore" element={<ExplorePage />}></Route>
                 <Route path="/:username" element={<ProfilePage />}></Route>
                 <Route path="/message" element={<MessagePage />}></Route>
+                <Route
+                  path="/account/edit"
+                  element={<EditProfilePage />}
+                ></Route>
                 <Route
                   path="/message/:username"
                   element={<MessagePage />}
