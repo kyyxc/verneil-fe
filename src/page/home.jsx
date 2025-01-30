@@ -5,9 +5,10 @@ import { ax } from "../api/authentication";
 import { usePostContext } from "../context/PostProvide";
 import PostList from "../components/PostList";
 import Suggested from "../components/Suggested";
+import { useLoadingContext } from "../context/LoadingContext";
 
 export default function HomePage() {
-  const [isLoading, setIsLoading] = useState(false);
+  const { loading, setLoading } = useLoadingContext();
   const [suggested, setSuggested] = useState(false);
   const {
     posts,
@@ -23,7 +24,7 @@ export default function HomePage() {
 
   const getPosts = async (page = 0) => {
     try {
-      setIsLoading(true);
+      setLoading((prev) => ({ ...prev, post: true }));
       const res = await ax.get(`/api/v1/posts?page=${page}&size=3`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -37,12 +38,13 @@ export default function HomePage() {
     } catch (err) {
       console.log(err);
     } finally {
-      setIsLoading(false);
+      setLoading((prev) => ({ ...prev, post: false }));
     }
   };
 
   const handleFollow = async (username) => {
     try {
+      setLoading((prev) => ({ ...prev, follow: username }));
       const res = await ax.post(
         `api/v1/users/${username}/follow`,
         {},
@@ -55,6 +57,8 @@ export default function HomePage() {
       setSuggested((prev) => prev.filter((user) => user.username != username));
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading((prev) => ({ ...prev, follow: "" }));
     }
   };
 
@@ -66,7 +70,7 @@ export default function HomePage() {
   }, [posts]);
 
   useEffect(() => {
-    if (!isLoading && !isPostsFetched) {
+    if (!loading.post && !isPostsFetched) {
       getPosts(page);
       setIsPostsFetched(true);
     }
@@ -76,7 +80,7 @@ export default function HomePage() {
     if (
       document.documentElement.scrollTop + window.innerHeight >=
         document.documentElement.scrollHeight &&
-      !isLoading &&
+      !loading.post &&
       isHasMorePost
     ) {
       setIsPostsFetched(false);
@@ -106,9 +110,15 @@ export default function HomePage() {
     <>
       <BaseLayout>
         <main className="w-full lg:flex sm:ml-[76px] lg:ml-[240px] flex-1">
-          <PostList posts={posts} setPosts={setPosts} />
+          <PostList posts={posts} setPosts={setPosts} loading={loading} />
           <div className="lg:flex-[1] hidden lg:block mt-10">
-            {suggested && <Suggested suggested={suggested} handleFollow={handleFollow} />}
+            {suggested && (
+              <Suggested
+                suggested={suggested}
+                handleFollow={handleFollow}
+                loading={loading.follow}
+              />
+            )}
           </div>
         </main>
       </BaseLayout>

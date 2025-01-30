@@ -2,7 +2,7 @@ import React from "react";
 import SuggestedList from "./SuggestedList";
 import { usePostContext } from "../context/PostProvide";
 
-const Suggested = ({ suggested, handleFollow }) => {
+const Suggested = ({ suggested, handleFollow, loading }) => {
   const { isOpenLike, isOpenMenu, isDelete, createStatus } = usePostContext();
   return (
     <div
@@ -14,7 +14,7 @@ const Suggested = ({ suggested, handleFollow }) => {
     >
       <h5 className="text-sm text-1">Suggested for you</h5>
       {suggested.map((user) => (
-        <SuggestedList key={user.id} user={user} handleFollow={handleFollow} />
+        <SuggestedList key={user.id} user={user} handleFollow={handleFollow} loading={loading} />
       ))}
     </div>
   );

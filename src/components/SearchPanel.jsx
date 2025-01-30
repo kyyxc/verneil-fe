@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ax } from "../api/authentication";
 import debounce from "lodash.debounce";
+import { useLoadingContext } from "../context/LoadingContext";
 
 const SearchPanel = ({ isSearching }) => {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
+  const { loading, setLoading } = useLoadingContext();
 
   const handleSearch = debounce(async (search) => {
     try {
@@ -17,10 +19,13 @@ const SearchPanel = ({ isSearching }) => {
       setUsers(res.data.users);
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading((prev) => ({ ...prev, search: false }));
     }
   }, 500);
 
   const handleSearchChange = (event) => {
+    setLoading((prev) => ({ ...prev, search: true }));
     const searchValue = event.target.value;
     setSearch(searchValue);
     handleSearch(searchValue);
@@ -45,6 +50,13 @@ const SearchPanel = ({ isSearching }) => {
         <hr className="border-t border-t-btn mt-10" />
       </form>
       <div className="mt-10">
+        {loading.search && (
+          <div className="flex items-center my-3">
+            <div className="w-[50px] h-[50px] bg-btn rounded-full"></div>
+
+            <div className="bg-btn w-56 h-5 rounded-md ml-4"></div>
+          </div>
+        )}
         {users &&
           users.map((user) => (
             <div className="flex items-center my-3" key={user.id}>

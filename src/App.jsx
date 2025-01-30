@@ -12,37 +12,41 @@ import { ExploreProvider } from "./context/ExploreContext";
 import { RouteProvider } from "./context/RouteContext";
 import { ProfileProvider } from "./context/ProfileContext";
 import EditProfilePage from "./page/edit-profile";
+import { LoadingProvider } from "./context/LoadingContext";
 
 function App() {
   return (
-    <PostProvider>
-      <ExploreProvider>
-        <ProfileProvider>
-          <BrowserRouter>
-            <RouteProvider>
-              <Routes>
-                <Route path="/" element={<HomePage />}></Route>
-                <Route path="/show/:id" element={<ShowPage />}></Route>
-                <Route path="/explore" element={<ExplorePage />}></Route>
-                <Route path="/:username" element={<ProfilePage />}></Route>
-                <Route path="/message" element={<MessagePage />}></Route>
-                <Route
-                  path="/account/edit"
-                  element={<EditProfilePage />}
-                ></Route>
-                <Route
-                  path="/message/:username"
-                  element={<MessagePage />}
-                ></Route>
+    <LoadingProvider>
+      {" "}
+      <PostProvider>
+        <ExploreProvider>
+          <ProfileProvider>
+            <BrowserRouter>
+              <RouteProvider>
+                <Routes>
+                  <Route path="/" element={<HomePage />}></Route>
+                  <Route path="/show/:id" element={<ShowPage />}></Route>
+                  <Route path="/explore" element={<ExplorePage />}></Route>
+                  <Route path="/:username" element={<ProfilePage />}></Route>
+                  <Route path="/message" element={<MessagePage />}></Route>
+                  <Route
+                    path="/account/edit"
+                    element={<EditProfilePage />}
+                  ></Route>
+                  <Route
+                    path="/message/:username"
+                    element={<MessagePage />}
+                  ></Route>
 
-                <Route path="/login" element={<LoginPage />}></Route>
-                <Route path="/register" element={<RegisterPage />}></Route>
-              </Routes>
-            </RouteProvider>
-          </BrowserRouter>
-        </ProfileProvider>
-      </ExploreProvider>
-    </PostProvider>
+                  <Route path="/login" element={<LoginPage />}></Route>
+                  <Route path="/register" element={<RegisterPage />}></Route>
+                </Routes>
+              </RouteProvider>
+            </BrowserRouter>
+          </ProfileProvider>
+        </ExploreProvider>
+      </PostProvider>
+    </LoadingProvider>
   );
 }
 
