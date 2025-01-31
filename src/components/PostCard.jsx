@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { usePostContext } from "../context/PostProvide";
+import { CircleChevronLeft, CircleChevronRight } from "lucide-react";
 
 const PostCard = ({ post, handleLike, user, handleDeletePost }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -61,10 +62,11 @@ const PostCard = ({ post, handleLike, user, handleDeletePost }) => {
         </div>
         <div className="flex relative justify-center items-center">
           {currentIndex != 0 && (
-            <i
-              className="bi bi-caret-left-fill absolute top-1/2 left-2 text-3xl translate-y-1/2"
+            <CircleChevronLeft
+              size={30}
+              className="absolute top-1/2 left-2 translate-y-1/2"
               onClick={handlePrevSlider}
-            ></i>
+            />
           )}
           <img
             src={post.media[currentIndex].url_path}
@@ -72,10 +74,11 @@ const PostCard = ({ post, handleLike, user, handleDeletePost }) => {
             className="mt-4 rounded-sm w-[468px] h-[585px] object-cover"
           />
           {currentIndex + 1 < post.media.length && (
-            <i
-              className="bi bi-caret-right-fill absolute top-1/2 text-3xl right-2 translate-y-1/2"
+            <CircleChevronRight
+              size={30}
+              className="absolute top-1/2 right-2 translate-y-1/2"
               onClick={handleNextSlider}
-            ></i>
+            />
           )}
         </div>
         <div className="flex justify-between mt-2.5 px-2">
@@ -152,7 +155,7 @@ const PostCard = ({ post, handleLike, user, handleDeletePost }) => {
               Delete
             </div>
           )}
-          <Link to={`/${post.user.username}`}>
+          <Link to={`/${post.user.username}`} onClick={() => setIsOpenMenu(!isOpenMenu)}>
             <div className="w--full text-center py-3 border-b border-b-gray-500">
               View Profile
             </div>

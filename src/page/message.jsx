@@ -52,7 +52,7 @@ export default function MessagePage() {
   const handleMessage = async (e) => {
     e.preventDefault();
     if (!body.trim()) {
-      return; // Cegah pengiriman pesan jika kosong
+      return;
     }
     const data = {
       body: body,
@@ -66,7 +66,7 @@ export default function MessagePage() {
         },
       });
       setMessages((prevMessages) => {
-        const newMessages = [...prevMessages, res.data]; // Menambahkan pesan baru di atas
+        const newMessages = [...prevMessages, res.data];
         return newMessages;
       });
     } catch (err) {
@@ -79,7 +79,7 @@ export default function MessagePage() {
       <div className="w-full h-screen overflow-hidden flex">
         <div className="ml-[76px] w-96 relative bg-slate h-full">
           <div className="fixed top-0 h-20 px-4 w-96 flex bg-black items-center">
-            <h1 className="text-xl text-1">AScdf</h1>
+            <h1 className="text-xl text-1">Kyyvrz</h1>
           </div>
           <div className="mt-20 h-full overflow-y-scroll">
             <h1 className="font-semibold px-4">Message</h1>
@@ -90,12 +90,16 @@ export default function MessagePage() {
           </div>
         </div>
 
-        {username && (
+        {username && messages[0] && (
           <div className="flex-1 bg-slate h-full border-l border-l-btn">
             <div className="fixed w-full top-0 border-b border-b-btn  h-20 px-5">
               <div className="flex items-center my-3">
                 <img
-                  src={`http://127.0.0.1:8000/storage/${messages[0].sender.avatar}`}
+                  src={`http://127.0.0.1:8000/storage/${
+                    user.id == messages[0].sender.id
+                      ? messages[0].receiver.avatar
+                      : messages[0].sender.avatar
+                  }`}
                   className="w-[50px] h-[50px] rounded-full object-cover"
                 />
                 <div>
@@ -106,7 +110,8 @@ export default function MessagePage() {
               </div>
             </div>
             <div className="overflow-y-auto mt-20 h-full max-h-[76%] p-4">
-              {messages && messages.length > 0 && 
+              {messages &&
+                messages.length > 0 &&
                 messages.map((message) => (
                   <BubbleMessage
                     key={message.id}
@@ -116,7 +121,7 @@ export default function MessagePage() {
                 ))}
             </div>
             <div className="flex justify-center">
-              <div class="absolute bottom-4 w-full max-w-[800px] flex justify-center">
+              <div className="absolute bottom-4 w-full max-w-[800px] flex justify-center">
                 <form
                   onSubmit={handleMessage}
                   className="w-full flex justify-center"

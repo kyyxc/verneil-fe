@@ -40,8 +40,8 @@ export default function NavigationBar() {
   return (
     <>
       <SideBar
-        isOpenMenu={isOpenMenu}
-        setIsOpenMenu={setIsOpenMenu}
+        isOpenMenuNav={isOpenMenu}
+        setIsOpenMenuNav={setIsOpenMenu}
         handleLogout={handleLogout}
         handleSearchTab={handleSeachTab}
         tabStatus={tabStatus}

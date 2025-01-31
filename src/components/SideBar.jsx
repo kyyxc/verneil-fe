@@ -15,7 +15,7 @@ const SideBar = ({
   createStatus,
 }) => {
   const user = JSON.parse(localStorage.getItem("user"));
-  const { isOpenLike, isOpenMenu, isDelete } = usePostContext();
+  const { isOpenLike, isOpenMenu, isDelete, isSearching } = usePostContext();
   const { isOpenFollowers, isOpenFollowing } = userProfileProvider();
   return (
     <div
@@ -28,7 +28,7 @@ const SideBar = ({
         createStatus ||
         isOpenFollowers ||
         isOpenFollowing
-          ? "opacity-20 pointer-events-none duration-0"
+          ? "opacity-20 pointer-events-none"
           : ""
       } h-[50px] bottom-0 sm:h-full fixed bg-black flex sm:flex-col sm:border-r transition-all  duration-500 sm:border-r-btn`}
     >
@@ -54,7 +54,7 @@ const SideBar = ({
         <ul className="sm:px-2.5 w-full flex flex-row justify-evenly items-center sm:items-start sm:flex-col">
           <NavLink
             to="/"
-            icon="bi-house-door-fill"
+            icon="bi-house-door"
             tabStatus={tabStatus}
             label="Home"
           />
@@ -63,6 +63,7 @@ const SideBar = ({
             icon="bi-search"
             tabStatus={tabStatus}
             label="Search"
+            className={tabStatus && isSearching ? 'border' : ''}
           />
           <NavLink
             to="/explore"
