@@ -6,7 +6,11 @@ export default function LoginPage() {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  useEffect(() => {});
+  useEffect(() => {
+    if (localStorage.getItem("token") || localStorage.getItem("user")) {
+      navigate("/");
+    }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();

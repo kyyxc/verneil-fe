@@ -13,10 +13,12 @@ export default function MessagePage() {
   const [listMessages, setlistMessages] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
   const [body, setBody] = useState("");
+  const [receiver, setReceiver] = useState({});
 
   useEffect(() => {
     getMessages();
     getListMessages();
+    getDetailUser()
   }, [username]);
 
   useEffect(() => {
@@ -31,6 +33,19 @@ export default function MessagePage() {
         },
       });
       setMessages(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getDetailUser = async () => {
+    try {
+      const res = await ax.get(`api/v1/users/${username}/detailMessage`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setReceiver(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -89,17 +104,12 @@ export default function MessagePage() {
               ))}
           </div>
         </div>
-
-        {username && messages[0] && (
+        {username && receiver && (
           <div className="flex-1 bg-slate h-full border-l border-l-btn">
             <div className="fixed w-full top-0 border-b border-b-btn  h-20 px-5">
               <div className="flex items-center my-3">
                 <img
-                  src={`http://127.0.0.1:8000/storage/${
-                    user.id == messages[0].sender.id
-                      ? messages[0].receiver.avatar
-                      : messages[0].sender.avatar
-                  }`}
+                  src={`http://127.0.0.1:8000/storage/${receiver.avatar}`}
                   className="w-[50px] h-[50px] rounded-full object-cover"
                 />
                 <div>

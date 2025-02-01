@@ -80,7 +80,10 @@ export default function ShowPage() {
             {matchPath("/:username", prev) && <ProfilePage></ProfilePage>}
           </div>
 
-          <Link to={prev}>
+          <Link
+            to={prev}
+            className={`${isOpenMenu ? "opacity-70 pointer-events-none" : ""}`}
+          >
             <i className="bi bi-x text-1 fixed top-0 right-6 text-[42px] z-50"></i>
           </Link>
           {post && (

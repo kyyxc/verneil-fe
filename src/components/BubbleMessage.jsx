@@ -5,7 +5,7 @@ const BubbleMessage = ({ message, user }) => {
   if (user.id == message.sender_id) {
     return (
       <div className="flex mt-6 justify-end">
-        <div className="rounded-3xl px-4 py-1.5 ml-3 bg-blue-600 max-w-[80%]">
+        <div className="rounded-3xl px-4 py-1.5 ml-3 bg-blue-600 max-w-[80%] break-all">
           {message.body}
         </div>
       </div>
@@ -17,7 +17,7 @@ const BubbleMessage = ({ message, user }) => {
           src={`http://localhost:8000/storage/${message.sender.avatar}`}
           className="w-[40px] h-[40px] rounded-full object-cover self-end"
         />
-        <div className="rounded-3xl px-4 py-1.5 ml-3 bg-btn max-w-[50%]">
+        <div className="rounded-3xl px-4 py-1.5 ml-3 bg-btn max-w-[80%]">
           {message.body}
         </div>
       </div>

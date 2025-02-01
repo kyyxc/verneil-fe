@@ -43,14 +43,14 @@ const PostCard = ({ post, handleLike, user, handleDeletePost }) => {
               alt="Post Picture Profile"
               className="w-[50px] h-[50px] rounded-full object-cover"
             />
-            <div className="">
-              <div className="ml-3 flex">
+            <div className="flex flex-col">
+              <div className="ml-3 flex items-center">
                 <h3 className="text-1 text-sm font-semibold">
                   <Link to={`/${post.user.username}`}>
                     {post.user.username}
                   </Link>
                 </h3>
-                <p className="ml-2.5 text-1 text-sm">● {post.created_at_ago}</p>
+                <p className="ml-2.5 text-1 text-xs">● {post.created_at_ago}</p>
               </div>
               <h5 className="ml-3 text-xs text-1">{post.user.full_name}</h5>
             </div>

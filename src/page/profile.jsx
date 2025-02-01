@@ -1,11 +1,11 @@
-import BaseLayout from "../components/Layout/baseLayout";
 import { ax } from "../api/authentication";
 import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { userProfileProvider } from "../context/ProfileContext";
+import BaseLayout from "../components/Layout/baseLayout";
 import UserProfileStat from "../components/UserProfileStat";
 import UserPost from "../components/UserPost";
 import UserProfileHeader from "../components/UserProfileHeader";
-import { Link, useParams } from "react-router-dom";
-import { userProfileProvider } from "../context/ProfileContext";
 
 export default function ProfilePage() {
   const { username } = useParams();
@@ -51,7 +51,7 @@ export default function ProfilePage() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      setFollowing(res.data.following);
+      setFollowing(res.data.following.filter((user) => !user.is_requested));
     } catch (err) {
       console.log(err);
     }
@@ -120,7 +120,8 @@ export default function ProfilePage() {
                         <div className="">
                           <div className="ml-3 flex">
                             <Link
-                              to="/"
+                              to={`/${user.username}`}
+                              onClick={() => setIsOpenFollowers(false)}
                               className="text-1 text-sm font-semibold"
                             >
                               {user.username}
@@ -157,7 +158,8 @@ export default function ProfilePage() {
                         <div className="">
                           <div className="ml-3 flex">
                             <Link
-                              to="/"
+                              onClick={() => setIsOpenFollowing(false)}
+                              to={`/${user.username}`}
                               className="text-1 text-sm font-semibold"
                             >
                               {user.username}

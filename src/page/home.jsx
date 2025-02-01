@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import NavigationBar from "../components/navigatioBar";
 import BaseLayout from "../components/Layout/baseLayout";
 import { ax } from "../api/authentication";
 import { usePostContext } from "../context/PostProvide";
 import PostList from "../components/PostList";
 import Suggested from "../components/Suggested";
 import { useLoadingContext } from "../context/LoadingContext";
+import RequestFollow from "../components/RequestFollow";
 
 export default function HomePage() {
   const { loading, setLoading } = useLoadingContext();
-  const [suggested, setSuggested] = useState(false);
+  const [suggested, setSuggested] = useState([]);
+  const [requestFollow, setRequestFollow] = useState([]);
   const {
     posts,
     setPosts,
@@ -21,6 +22,30 @@ export default function HomePage() {
     setIsPostsFetched,
   } = usePostContext();
   const user = JSON.parse(localStorage.getItem("user"));
+
+  useEffect(() => {
+    getSuggested();
+    getRequest();
+  }, []);
+
+  useEffect(() => {
+    if (!loading.post && !isPostsFetched) {
+      getPosts(page);
+      setIsPostsFetched(true);
+    }
+  }, [page]);
+
+  const handleNext = () => {
+    if (
+      document.documentElement.scrollTop + window.innerHeight >=
+        document.documentElement.scrollHeight &&
+      !loading.post &&
+      isHasMorePost
+    ) {
+      setIsPostsFetched(false);
+      setPage((prev) => (prev += 1));
+    }
+  };
 
   const getPosts = async (page = 0) => {
     try {
@@ -62,29 +87,25 @@ export default function HomePage() {
     }
   };
 
-  useEffect(() => {
-    getSuggested();
-  }, []);
-  useEffect(() => {
-    console.log(posts);
-  }, [posts]);
-
-  useEffect(() => {
-    if (!loading.post && !isPostsFetched) {
-      getPosts(page);
-      setIsPostsFetched(true);
-    }
-  }, [page]);
-
-  const handleNext = () => {
-    if (
-      document.documentElement.scrollTop + window.innerHeight >=
-        document.documentElement.scrollHeight &&
-      !loading.post &&
-      isHasMorePost
-    ) {
-      setIsPostsFetched(false);
-      setPage((prev) => (prev += 1));
+  const handleAccept = async (username) => {
+    try {
+      setLoading((prev) => ({ ...prev, accept: username }));
+      await ax.put(
+        `api/v1/users/${username}/accept`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setRequestFollow((prev) =>
+        prev.filter((user) => user.username != username)
+      );
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading((prev) => ({ ...prev, accept: "" }));
     }
   };
 
@@ -101,6 +122,19 @@ export default function HomePage() {
     }
   };
 
+  const getRequest = async () => {
+    try {
+      const res = await ax.get(`api/v1/users/${user.username}/followers`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setRequestFollow(res.data.followers.filter((user) => user.is_requested));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     window.addEventListener("scroll", handleNext);
     return () => window.removeEventListener("scroll", handleNext);
@@ -112,6 +146,13 @@ export default function HomePage() {
         <main className="w-full lg:flex sm:ml-[76px] lg:ml-[240px] flex-1">
           <PostList posts={posts} setPosts={setPosts} loading={loading} />
           <div className="lg:flex-[1] hidden lg:block mt-10">
+            {requestFollow && requestFollow.length > 0 && (
+              <RequestFollow
+                requests={requestFollow}
+                loading={loading.accept}
+                handleAccept={handleAccept}
+              ></RequestFollow>
+            )}
             {suggested && (
               <Suggested
                 suggested={suggested}

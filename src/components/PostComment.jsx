@@ -23,7 +23,7 @@ const PostComment = ({ post, handleLike, setDeleteCommentId, user }) => {
   };
   return (
     <>
-      <div className="mt-20 overflow-y-scroll max-h-[80%] scrollbar-hidden">
+      <div className="mt-20 overflow-y-scroll max-h-[60%] w-full scrollbar-hidden">
         <div className="flex gap-5 p-5 items-center">
           <div>
             <img
@@ -44,7 +44,7 @@ const PostComment = ({ post, handleLike, setDeleteCommentId, user }) => {
         </div>
         {post.comments &&
           post.comments.map((comment) => (
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between w-full">
               <div className="flex gap-5 p-5 items-center" key={comment.id}>
                 <div>
                   <img
@@ -58,7 +58,7 @@ const PostComment = ({ post, handleLike, setDeleteCommentId, user }) => {
                     <Link to={`/${comment.user.username}`}>
                       {comment.user.username}
                     </Link>
-                    <p className="font-normal ml-2 inline text-slate-300">
+                    <p className="font-normal ml-2 inline text-slate-300 break-all">
                       {comment.body}
                     </p>
                   </div>

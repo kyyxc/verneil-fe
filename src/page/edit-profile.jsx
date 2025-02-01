@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import BaseLayout from "../components/Layout/baseLayout";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ax } from "../api/authentication";
 
 const EditProfilePage = () => {
   const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate()
   const [avatar, setAvatar] = useState(null);
   const [previewAvatar, setPreviewAvatar] = useState(null);
   const [errors, setErrors] = useState({});
@@ -31,10 +32,9 @@ const EditProfilePage = () => {
 
     const data = {
       ...input,
-      avatar: avatar,
+      avatar: avatar ? avatar : input.avatar,
       is_privated: e.target.is_privated.checked ? 1 : 0,
     };
-    console.log(data);
 
     try {
       const res = await ax.post("api/v1/users/update", data, {
@@ -43,9 +43,8 @@ const EditProfilePage = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(res.data);
-
       localStorage.setItem("user", JSON.stringify(res.data.user));
+      navigate(`/${user.username}`)
     } catch (err) {
       console.log(err);
       setErrors({
@@ -161,7 +160,7 @@ const EditProfilePage = () => {
                       type="checkbox"
                       name="is_privated"
                       id="is_privated"
-                      value={input.is_privated}
+                      checked={input.is_privated}
                       onChange={(e) =>
                         setInput((prev) => ({
                           ...prev,

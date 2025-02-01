@@ -7,7 +7,8 @@ export const LoadingProvider = ({ children }) => {
   const [loading, setLoading] = useState({
     post: false,
     follow: "",
-    search: false
+    search: false,
+    accept: false
   });
   return (
     <LoadingContext.Provider value={{loading, setLoading}}>

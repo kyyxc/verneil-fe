@@ -4,7 +4,7 @@ import PostComment from "./PostComment";
 import { ax } from "../api/authentication";
 import { Link } from "react-router-dom";
 
-const PostDetail = ({
+const   PostDetail = ({
   post,
   handleLike,
   isOpenMenu,
@@ -46,7 +46,7 @@ const PostDetail = ({
     <>
       <div
         className={`${
-          isOpenMenu ? "opacity-50 pointer-events-none duration-0" : ""
+          isOpenMenu ? "pointer-events-none opacity-70" : ""
         } fixed top-1/2 left-1/2 transform -translate-x-1/2 shadow-sm shadow-slate-200 -translate-y-1/2 flex flex-col sm:flex-row w-[80%] h-[90%] bg-black`}
       >
         <div className="flex-1 text-1 bg-slate-50">
@@ -95,7 +95,7 @@ const PostDetail = ({
               Delete
             </div>
           )}
-          <Link to={`/profile/${post.user.username}`}>
+          <Link to={`/${post.user.username}`} onClick={() => setIsOpenMenu(false)}>
             <div className="w--full text-center py-3 border-b border-b-gray-500">
               View Profile
             </div>

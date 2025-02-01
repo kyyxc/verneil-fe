@@ -2,12 +2,14 @@ import React from "react";
 import { ax } from "../api/authentication";
 import PostCard from "./PostCard";
 import { LikePost } from "../api/post";
+import { usePostContext } from "../context/PostProvide";
 
 const PostList = ({ posts, setPosts, loading }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const handleLike = (id) => {
     LikePost(id, setPosts);
   };
+  const { setIsDelete } = usePostContext();
 
   const handleDeletePost = async (id) => {
     try {
@@ -17,6 +19,7 @@ const PostList = ({ posts, setPosts, loading }) => {
         },
       });
       setPosts((prev) => prev.filter((post) => post.id !== id));
+      setIsDelete(0)
     } catch (err) {
       console.log(err);
     }
