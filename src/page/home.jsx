@@ -129,7 +129,7 @@ export default function HomePage() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      setRequestFollow(res.data.followers.filter((user) => user.is_requested));
+      setRequestFollow(res.data.followers.filter((user) => user.is_requested).slice(0, 10));
     } catch (err) {
       console.log(err);
     }

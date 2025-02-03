@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { usePostContext } from "../context/PostProvide";
 import { CircleChevronLeft, CircleChevronRight } from "lucide-react";
 
-const PostCard = ({ post, handleLike, user, handleDeletePost }) => {
+const   PostCard = ({ post, handleLike, user, handleDeletePost }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const {
     isOpenLike,

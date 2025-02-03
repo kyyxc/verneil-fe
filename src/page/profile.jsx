@@ -6,10 +6,11 @@ import BaseLayout from "../components/Layout/baseLayout";
 import UserProfileStat from "../components/UserProfileStat";
 import UserPost from "../components/UserPost";
 import UserProfileHeader from "../components/UserProfileHeader";
+import { usePostContext } from "../context/PostProvide";
 
 export default function ProfilePage() {
   const { username } = useParams();
-  const [user, setUser] = useState();
+  const {user, setUser} = usePostContext()
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
   const {
@@ -25,10 +26,6 @@ export default function ProfilePage() {
     getfollowing();
   }, [username]);
 
-  useEffect(() => {
-    console.log(followers);
-  }, []);
-
   const getFollowers = async () => {
     try {
       const res = await ax.get(`api/v1/users/${username}/followers`, {
@@ -36,8 +33,6 @@ export default function ProfilePage() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      console.log(res.data.followers);
-
       setFollowers(res.data.followers);
     } catch (err) {
       console.log(err);
@@ -64,7 +59,6 @@ export default function ProfilePage() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-
       setUser(res.data);
     } catch (err) {
       console.log(err);
@@ -95,7 +89,7 @@ export default function ProfilePage() {
                 <UserProfileStat user={user}></UserProfileStat>
                 <hr className="mt-2.5 lg:mt-10 border-t border-t-btn" />
                 <div className="mt-10">
-                  <UserPost posts={user.posts}></UserPost>
+                  <UserPost user={user}></UserPost>
                 </div>
               </div>
             </div>

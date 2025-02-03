@@ -14,6 +14,7 @@ export const PostProvider = ({ children }) => {
   const [isOpenMenu, setIsOpenMenu] = useState(0);
   const [isDelete, setIsDelete] = useState(0);
   const [deleteCommentId, setDeleteCommentId] = useState({});
+  const [user, setUser] = useState({})
 
   return (
     <PostContext.Provider
@@ -40,6 +41,7 @@ export const PostProvider = ({ children }) => {
         setIsDelete,
         deleteCommentId,
         setDeleteCommentId,
+        user, setUser
       }}
     >
       {children}

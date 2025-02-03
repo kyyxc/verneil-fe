@@ -1,7 +1,7 @@
 import React from "react";
 import SearchPanel from "./SearchPanel";
 import NavLink from "./NavLink";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { usePostContext } from "../context/PostProvide";
 import { userProfileProvider } from "../context/ProfileContext";
 
@@ -14,13 +14,14 @@ const SideBar = ({
   setCreateStatus,
   createStatus,
 }) => {
+  const location = useLocation();
   const user = JSON.parse(localStorage.getItem("user"));
   const { isOpenLike, isOpenMenu, isDelete, isSearching } = usePostContext();
   const { isOpenFollowers, isOpenFollowing } = userProfileProvider();
   return (
     <div
       className={` ${
-        tabStatus ? "w-[76px]" : "w-full sm:w-[76px] lg:w-[240px]"
+        tabStatus ? "w-[76px] bg-black" : "w-full sm:w-[76px] lg:w-[240px] bg-black"
       } ${
         isDelete ||
         isOpenLike ||
@@ -30,7 +31,7 @@ const SideBar = ({
         isOpenFollowing
           ? "opacity-20 pointer-events-none"
           : ""
-      } h-[50px] bottom-0 sm:h-full fixed bg-black flex sm:flex-col sm:border-r transition-all  duration-500 sm:border-r-btn`}
+      } h-[50px] z-50  bottom-0 sm:h-full fixed bg-black flex sm:flex-col sm:border-r sm:transition-all  sm:duration-500 sm:border-r-btn`}
     >
       {/* Header */}
       <div className="px-2 mt-2 py-4 text-white font-caveat h-24 hidden sm:block">
@@ -63,7 +64,7 @@ const SideBar = ({
             icon="bi-search"
             tabStatus={tabStatus}
             label="Search"
-            className={tabStatus && isSearching ? 'border' : ''}
+            className={`${tabStatus && isSearching ? 'border' : ''} hidden sm:flex`}
           />
           <NavLink
             to="/explore"

@@ -13,7 +13,7 @@ const ListMessages = ({ message, user }) => {
           }`}
           className="w-[50px] h-[50px] object-cover rounded-full"
         />
-        <div>
+        <div className="hidden sm:block">
           <div className="ml-3 flex">
             <h3 className="text-1 text-sm font-semibold">
               <Link

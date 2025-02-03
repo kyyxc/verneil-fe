@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const ExploreCard = ({ post }) => {
   return (
     <Link to={`/show/${post.id}`}>
-      <div className="h-50">
+      <div className="h-52 sm:h-72 lg:h-96">
         <img
           src={post.media[0].url_path}
           alt=""

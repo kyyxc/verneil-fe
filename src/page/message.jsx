@@ -92,12 +92,12 @@ export default function MessagePage() {
   return (
     <BaseLayout>
       <div className="w-full h-screen overflow-hidden flex">
-        <div className="ml-[76px] w-96 relative bg-slate h-full">
+        <div className="sm:ml-[76px] w-24 sm:w-96 relative bg-slate h-full">
           <div className="fixed top-0 h-20 px-4 w-96 flex bg-black items-center">
             <h1 className="text-xl text-1">Kyyvrz</h1>
           </div>
           <div className="mt-20 h-full overflow-y-scroll">
-            <h1 className="font-semibold px-4">Message</h1>
+            <h1 className="font-semibold px-4 hidden sm:block">Message</h1>
             {listMessages &&
               listMessages.map((message) => (
                 <ListMessages key={message.id} message={message} user={user} />
@@ -119,7 +119,7 @@ export default function MessagePage() {
                 </div>
               </div>
             </div>
-            <div className="overflow-y-auto mt-20 h-full max-h-[76%] p-4">
+            <div className="overflow-y-auto mt-20 h-full max-h-[65%] sm:max-h-[76%] p-4">
               {messages &&
                 messages.length > 0 &&
                 messages.map((message) => (
@@ -131,7 +131,7 @@ export default function MessagePage() {
                 ))}
             </div>
             <div className="flex justify-center">
-              <div className="absolute bottom-4 w-full max-w-[800px] flex justify-center">
+              <div className="absolute bottom-12 sm:bottom-4 w-full max-w-[800px] flex justify-center">
                 <form
                   onSubmit={handleMessage}
                   className="w-full flex justify-center"

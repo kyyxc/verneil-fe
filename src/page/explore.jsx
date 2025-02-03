@@ -28,7 +28,7 @@ export default function ExplorePage() {
   const getExplore = async () => {
     try {
       setIsLoading(true);
-      const res = await ax.get(`/api/v1/posts/explore?size=6&page=${page}`, {
+      const res = await ax.get(`/api/v1/posts/explore?size=9&page=${page}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

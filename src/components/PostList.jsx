@@ -26,7 +26,7 @@ const PostList = ({ posts, setPosts, loading }) => {
   };
 
   return (
-    <div className="flex flex-wrap justify-center lg:flex-[2] mt-20">
+    <div className="flex flex-col w-full justify-center items-center lg:flex-[2] mt-20">
       {posts &&
         posts.map((post) => (
           <PostCard

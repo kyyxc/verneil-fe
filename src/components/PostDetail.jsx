@@ -4,7 +4,7 @@ import PostComment from "./PostComment";
 import { ax } from "../api/authentication";
 import { Link } from "react-router-dom";
 
-const   PostDetail = ({
+const PostDetail = ({
   post,
   handleLike,
   isOpenMenu,
@@ -88,14 +88,25 @@ const   PostDetail = ({
       {isOpenMenu == post.id && (
         <div className="fixed flex flex-col z-50 text-1 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg w-96 bg-btn text-sm">
           {user.id == post.user.id && (
-            <div
-              className="w--full text-center py-3 border-b border-b-gray-500 text-red-500"
-              onClick={() => handleDeletePost(post.id)}
-            >
-              Delete
-            </div>
+            <>
+              <div
+                className="w--full text-center py-3 border-b border-b-gray-500 text-red-500"
+                onClick={() => handleDeletePost(post.id)}
+              >
+                Delete
+              </div>
+              {/* <div
+                className="w--full text-center py-3 border-b border-b-gray-500 text-blue-500"
+                onClick={() => handleDeletePost(post.id)}
+              >
+                Update
+              </div> */}
+            </>
           )}
-          <Link to={`/${post.user.username}`} onClick={() => setIsOpenMenu(false)}>
+          <Link
+            to={`/${post.user.username}`}
+            onClick={() => setIsOpenMenu(false)}
+          >
             <div className="w--full text-center py-3 border-b border-b-gray-500">
               View Profile
             </div>
