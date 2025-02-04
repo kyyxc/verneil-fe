@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import { ax } from "../api/authentication";
 import BubbleMessage from "../components/BubbleMessage";
 import ListMessages from "../components/ListMessages";
+import { Image } from "lucide-react";
 
 export default function MessagePage() {
   const { setTabStatus } = usePostContext();
@@ -13,17 +14,22 @@ export default function MessagePage() {
   const [listMessages, setlistMessages] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
   const [body, setBody] = useState("");
+  const [images, setImages] = useState(null);
   const [receiver, setReceiver] = useState({});
 
   useEffect(() => {
     getMessages();
     getListMessages();
-    getDetailUser()
+    getDetailUser();
   }, [username]);
 
   useEffect(() => {
     setTabStatus(true);
   }, []);
+
+  const handleChangeFile = (e) => {
+    setImages(e.target.files[0]);
+  };
 
   const getMessages = async () => {
     try {
@@ -32,11 +38,17 @@ export default function MessagePage() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      setMessages(res.data);
+      console.log(res.data.message);
+      setMessages(res.data.message);
     } catch (err) {
       console.log(err);
     }
   };
+
+  // useEffect(() => {
+  //   console.log(messages);
+    
+  // }, [messages])
 
   const getDetailUser = async () => {
     try {
@@ -58,6 +70,8 @@ export default function MessagePage() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
+      console.log(res.data);
+      
       setlistMessages(res.data);
     } catch (err) {
       console.log(err);
@@ -66,11 +80,10 @@ export default function MessagePage() {
 
   const handleMessage = async (e) => {
     e.preventDefault();
-    if (!body.trim()) {
-      return;
-    }
+
     const data = {
       body: body,
+      attachment: images,
     };
     setBody("");
 
@@ -78,6 +91,7 @@ export default function MessagePage() {
       const res = await ax.post(`api/v1/users/${username}/message`, data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data",
         },
       });
       setMessages((prevMessages) => {
@@ -92,12 +106,12 @@ export default function MessagePage() {
   return (
     <BaseLayout>
       <div className="w-full h-screen overflow-hidden flex">
-        <div className="sm:ml-[76px] w-24 sm:w-96 relative bg-slate h-full">
+        <div className="sm:ml-[76px] w-24 lg:w-96 relative bg-slate h-full">
           <div className="fixed top-0 h-20 px-4 w-96 flex bg-black items-center">
             <h1 className="text-xl text-1">Kyyvrz</h1>
           </div>
           <div className="mt-20 h-full overflow-y-scroll">
-            <h1 className="font-semibold px-4 hidden sm:block">Message</h1>
+            <h1 className="font-semibold px-4 hidden lg:block">Message</h1>
             {listMessages &&
               listMessages.map((message) => (
                 <ListMessages key={message.id} message={message} user={user} />
@@ -119,31 +133,46 @@ export default function MessagePage() {
                 </div>
               </div>
             </div>
-            <div className="overflow-y-auto mt-20 h-full max-h-[65%] sm:max-h-[76%] p-4">
+            <div className="overflow-y-auto mt-20 h-full max-h-[72%] sm:max-h-[70%] lg:max-h-[76%] p-4">
               {messages &&
                 messages.length > 0 &&
-                messages.map((message) => (
+                messages.map((message, index) => (
                   <BubbleMessage
-                    key={message.id}
+                    key={index}
                     message={message}
                     user={user}
                   ></BubbleMessage>
                 ))}
             </div>
             <div className="flex justify-center">
-              <div className="absolute bottom-12 sm:bottom-4 w-full max-w-[800px] flex justify-center">
+              <div className="sm:absolute sm:bottom-4 w-full max-w-[800px] flex justify-center">
                 <form
                   onSubmit={handleMessage}
                   className="w-full flex justify-center"
+                  encType="multipart/form-data"
                 >
                   <input
                     type="text"
-                    className="sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[90%] px-4 py-2 border rounded-full bg-transparent"
+                    className="w-[80%] sm:w-[70%] md:w-[80%] lg:w-[70%] xl:w-[90%] px-4 py-2 border rounded-full bg-transparent"
                     placeholder="Message..."
                     name="message"
                     value={body}
                     onChange={(e) => setBody(e.target.value)}
                   />
+                  <div className="absolute flex right-12 items-center sm:right-28 md:right-24 lg:right-32 xl:right-12">
+                    <input
+                      type="file"
+                      className="hidden"
+                      id="file_message"
+                      onChange={handleChangeFile}
+                    />
+                    <label htmlFor="file_message">
+                      <Image />
+                    </label>
+                    <button type="submit" className="px-2 py-2 text-blue-600">
+                      Send
+                    </button>
+                  </div>
                 </form>
               </div>
             </div>
