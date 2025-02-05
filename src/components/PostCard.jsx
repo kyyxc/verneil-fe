@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { usePostContext } from "../context/PostProvide";
 import { CircleChevronLeft, CircleChevronRight } from "lucide-react";
 
-const   PostCard = ({ post, handleLike, user, handleDeletePost }) => {
+const PostCard = ({ post, handleLike, handleSave, user, handleDeletePost }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const {
     isOpenLike,
@@ -94,10 +94,17 @@ const   PostCard = ({ post, handleLike, user, handleDeletePost }) => {
             </Link>
           </div>
 
-          <i className="bi bi-bookmark text-[26px]"></i>
+          <i
+            className={`bi text-[26px] ${
+              post.is_save
+                ? "text-yellow-500 bi-bookmark-fill"
+                : "text-1 bi-bookmark "
+            }`}
+            onClick={() => handleSave(post.id)}
+          ></i>
         </div>
         <p
-          className="px-2 mt-2.5 text-sm text-1"
+          className="px-2 mt-2.5 text-sm"
           onClick={() => setIsOpenLike(post.id)}
         >
           {post.likes_count} Likes
@@ -155,7 +162,10 @@ const   PostCard = ({ post, handleLike, user, handleDeletePost }) => {
               Delete
             </div>
           )}
-          <Link to={`/${post.user.username}`} onClick={() => setIsOpenMenu(!isOpenMenu)}>
+          <Link
+            to={`/${post.user.username}`}
+            onClick={() => setIsOpenMenu(!isOpenMenu)}
+          >
             <div className="w--full text-center py-3 border-b border-b-gray-500">
               View Profile
             </div>

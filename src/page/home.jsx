@@ -129,7 +129,9 @@ export default function HomePage() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      setRequestFollow(res.data.followers.filter((user) => user.is_requested).slice(0, 10));
+      setRequestFollow(
+        res.data.followers.filter((user) => user.is_requested).slice(0, 10)
+      );
     } catch (err) {
       console.log(err);
     }
@@ -144,7 +146,9 @@ export default function HomePage() {
     <>
       <BaseLayout>
         <main className="w-full lg:flex sm:ml-[76px] lg:ml-[240px] flex-1">
-          <PostList posts={posts} setPosts={setPosts} loading={loading} />
+          {posts && (
+            <PostList posts={posts} setPosts={setPosts} loading={loading} />
+          )}
           <div className="lg:flex-[1] hidden lg:block mt-10">
             {requestFollow && requestFollow.length > 0 && (
               <RequestFollow

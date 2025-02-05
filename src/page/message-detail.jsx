@@ -102,7 +102,7 @@ export default function MessageDetailPage() {
               </div>
             </div>
           </div>
-          <div className="overflow-y-auto mt-20 h-full max-h-[78%] sm:max-h-[70%] lg:max-h-[76%] xl:max-h-[84%] p-4">
+          <div className="overflow-y-auto mt-20 h-full max-h-[72%] sm:max-h-[74%] lg:max-h-[75%] xl:max-h-[78%] p-4">
             {messages &&
               messages.length > 0 &&
               messages.map((message, index) => (

@@ -17,7 +17,7 @@ const SideBar = ({
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem("user"));
   const { isOpenLike, isOpenMenu, isDelete, isSearching } = usePostContext();
-  const { isOpenFollowers, isOpenFollowing } = userProfileProvider();
+  const { isOpenFollowers, isOpenFollowing, isOpenSettings } = userProfileProvider();
   return (
     <div
       className={` ${
@@ -28,7 +28,8 @@ const SideBar = ({
         isOpenMenu ||
         createStatus ||
         isOpenFollowers ||
-        isOpenFollowing
+        isOpenFollowing ||
+        isOpenSettings 
           ? "opacity-20 pointer-events-none"
           : ""
       } h-[50px] z-50  bottom-0 sm:h-full fixed bg-black flex sm:flex-col sm:border-r sm:transition-all  sm:duration-500 sm:border-r-btn`}

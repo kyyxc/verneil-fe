@@ -8,6 +8,8 @@ import PostDetail from "../components/PostDetail";
 import ExplorePage from "./explore";
 import { useRouteContext } from "../context/RouteContext";
 import ProfilePage from "./profile";
+import SavedPage from "./saved";
+import BackShow from "../components/BackShow";
 
 export default function ShowPage() {
   const {
@@ -75,9 +77,7 @@ export default function ShowPage() {
       {prev && (
         <>
           <div className="opacity-30 pointer-events-none">
-            {prev == "/" && <HomePage></HomePage>}
-            {prev == "/explore" && <ExplorePage></ExplorePage>}
-            {matchPath("/:username", prev) && <ProfilePage></ProfilePage>}
+            <BackShow prev={prev}></BackShow>
           </div>
 
           <Link

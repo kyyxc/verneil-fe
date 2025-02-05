@@ -1,10 +1,11 @@
 import React from "react";
 import { ax } from "../api/authentication";
 import { Link } from "react-router-dom";
+import { Settings } from "lucide-react";
+import { userProfileProvider } from "../context/ProfileContext";
 
 const StatusFollowing = ({ user, setUser }) => {
-  console.log(user);
-
+  const { setIsOpenSettings } = userProfileProvider();
   const handleFollow = async () => {
     try {
       const res = await ax.post(
@@ -50,7 +51,7 @@ const StatusFollowing = ({ user, setUser }) => {
 
   if (user.is_your_account) {
     return (
-      <div className="flex gap-5 sm:ml-8">
+      <div className="flex gap-5 sm:ml-8 items-center ">
         <Link to="/account/edit">
           <input
             type="button"
@@ -58,11 +59,14 @@ const StatusFollowing = ({ user, setUser }) => {
             className="bg-btn px-4 py-1 rounded-md"
           />
         </Link>
-        <input
-          type="button"
-          value="Saved"
-          className="bg-btn px-4 py-1 rounded-md"
-        />
+        <Link to='/saved'>
+          <input
+            type="button"
+            value="Saved"
+            className="bg-btn px-4 py-1 rounded-md"
+          />
+        </Link>
+        <Settings onClick={() => setIsOpenSettings(true)} />
       </div>
     );
   } else if (user.following_status == "requested") {

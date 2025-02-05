@@ -10,7 +10,7 @@ import { usePostContext } from "../context/PostProvide";
 
 export default function ProfilePage() {
   const { username } = useParams();
-  const {user, setUser} = usePostContext()
+  const { user, setUser } = usePostContext();
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
   const {
@@ -18,6 +18,8 @@ export default function ProfilePage() {
     setIsOpenFollowers,
     isOpenFollowing,
     setIsOpenFollowing,
+    isOpenSettings,
+    setIsOpenSettings,
   } = userProfileProvider();
 
   useEffect(() => {
@@ -72,7 +74,9 @@ export default function ProfilePage() {
           <>
             <div
               className={`flex-1 lg:flex sm:ml-[76px] lg:ml-[240px] sm:flex sm:flex-col ${
-                isOpenFollowers || isOpenFollowing ? "opacity-30" : ""
+                isOpenFollowers || isOpenFollowing || isOpenSettings
+                  ? "opacity-30 pointer-events-none"
+                  : ""
               }`}
             >
               <div className="fixed top-0 bg-black w-full sm:hidden text-center p-2 border-b font-semibold border-b-btn">
@@ -86,8 +90,11 @@ export default function ProfilePage() {
                   setIsOpenFollowers={setIsOpenFollowers}
                   setIsOpenFollowing={setIsOpenFollowing}
                 ></UserProfileHeader>
-                <UserProfileStat user={user}                  setIsOpenFollowers={setIsOpenFollowers}
-                  setIsOpenFollowing={setIsOpenFollowing}></UserProfileStat>
+                <UserProfileStat
+                  user={user}
+                  setIsOpenFollowers={setIsOpenFollowers}
+                  setIsOpenFollowing={setIsOpenFollowing}
+                ></UserProfileStat>
                 <hr className="mt-2.5 lg:mt-10 border-t border-t-btn" />
                 <div className="mt-10">
                   <UserPost user={user}></UserPost>
@@ -167,6 +174,21 @@ export default function ProfilePage() {
                       </div>
                     ))}
                   </div>
+                </div>
+              </div>
+            )}
+
+            {isOpenSettings && (
+              <div className="fixed flex  flex-col z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg w-96 bg-btn text-sm">
+                <Link to='/saved' onClick={() => setIsOpenSettings(false)} className="w--full text-center py-3 border-b border-b-gray-500 cursor-pointer">
+                  Saved
+                </Link>
+
+                <div
+                  className="w--full text-center py-3 cursor-pointer"
+                  onClick={() => setIsOpenSettings(false)}
+                >
+                  Cancel
                 </div>
               </div>
             )}
