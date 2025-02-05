@@ -13,6 +13,7 @@ import { RouteProvider } from "./context/RouteContext";
 import { ProfileProvider } from "./context/ProfileContext";
 import EditProfilePage from "./page/edit-profile";
 import { LoadingProvider } from "./context/LoadingContext";
+import MessageDetailPage from "./page/message-detail";
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
                   ></Route>
                   <Route
                     path="/message/:username"
-                    element={<MessagePage />}
+                    element={<MessageDetailPage />}
                   ></Route>
 
                   <Route path="/login" element={<LoginPage />}></Route>

@@ -13,8 +13,8 @@ const RequestFollow = ({ requests, loading, handleAccept }) => {
       }`}
     >
       <h5 className="text-sm text-1">Request</h5>
-      {requests.map((user) => (
-        <div className="flex items-center w-full" key={user.id}>
+      {requests.map((user, index) => (
+        <div className="flex items-center w-full" key={index}>
           <img
             src={`http://localhost:8000/storage/${user.avatar}`}
             alt=""

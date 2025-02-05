@@ -21,7 +21,7 @@ const SideBar = ({
   return (
     <div
       className={` ${
-        tabStatus ? "w-[76px] bg-black" : "w-full sm:w-[76px] lg:w-[240px] bg-black"
+        tabStatus ? "w-full sm:w-[76px] bg-black" : "w-full sm:w-[76px] lg:w-[240px] bg-black"
       } ${
         isDelete ||
         isOpenLike ||

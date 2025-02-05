@@ -102,7 +102,7 @@ const Create = ({ setCreateStatus }) => {
       )}
 
       {previewImage && (
-        <div className="fixed z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl w-[750px] h-[420px] ">
+        <div className="fixed z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl w-[400px] h-[300px] sm:w-[80%] sm:h-[40%] md:w-[800px] md:h-[500px] ">
           <div className="h-10 w-full flex items-center justify-center bg-black font-xl font-semibold text-center rounded-t-lg">
             Create Post
           </div>

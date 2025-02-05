@@ -47,7 +47,7 @@ const PostDetail = ({
       <div
         className={`${
           isOpenMenu ? "pointer-events-none opacity-70" : ""
-        } fixed top-1/2 left-1/2 transform -translate-x-1/2 shadow-sm shadow-slate-200 -translate-y-1/2 flex flex-col sm:flex-row w-[80%] h-[90%] bg-black`}
+        } fixed top-1/2 left-1/2 transform -translate-x-1/2 shadow-sm shadow-slate-200 -translate-y-1/2 flex flex-col sm:flex-row w-96 h-9w-96  sm:w-[80%] sm:h-[90%] bg-black`}
       >
         <div className="flex-1 text-1 bg-slate-50">
           <div className="h-full bg-slate-200 ">

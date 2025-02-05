@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ax } from "../api/authentication";
 import debounce from "lodash.debounce";
 import { useLoadingContext } from "../context/LoadingContext";
+import Loading from "./Loading";
 
 const SearchPanel = ({ isSearching }) => {
   const [users, setUsers] = useState([]);
@@ -50,13 +51,11 @@ const SearchPanel = ({ isSearching }) => {
         <hr className="border-t border-t-btn mt-10" />
       </form>
       <div className="mt-10">
-        {/* {loading.search && (
-          <div className="flex items-center my-3">
-            <div className="w-[50px] h-[50px] bg-btn rounded-full"></div>
-
-            <div className="bg-btn w-56 h-5 rounded-md ml-4"></div>
+        {loading.search && (
+          <div className="w-full flex justify-center">
+            <Loading />
           </div>
-        )} */}
+        )}
         {users &&
           users.map((user) => (
             <div className="flex items-center my-3" key={user.id}>
@@ -74,9 +73,9 @@ const SearchPanel = ({ isSearching }) => {
               </div>
             </div>
           ))}
-          {users.length == 0 && search && !loading.search && (
-            <p className="text-center text-[17px]">Not Found</p>
-          )}
+        {users.length == 0 && search && !loading.search && (
+          <p className="text-center text-[17px]">Not Found</p>
+        )}
       </div>
     </div>
   );

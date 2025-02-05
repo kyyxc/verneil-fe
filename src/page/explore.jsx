@@ -3,6 +3,8 @@ import ExploreCard from "../components/ExploreCard";
 import BaseLayout from "../components/Layout/baseLayout";
 import { ax } from "../api/authentication";
 import { useExploreContext } from "../context/ExploreContext";
+import { useLoadingContext } from "../context/LoadingContext";
+import Loading from "../components/Loading";
 
 export default function ExplorePage() {
   const {
@@ -26,9 +28,10 @@ export default function ExplorePage() {
   }, [page]);
 
   const getExplore = async () => {
+    setIsLoading(true);
     try {
       setIsLoading(true);
-      const res = await ax.get(`/api/v1/posts/explore?size=9&page=${page}`, {
+      const res = await ax.get(`/api/v1/posts/explore?size=15&page=${page}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -49,7 +52,6 @@ export default function ExplorePage() {
       !isLoading &&
       isHasMore
     ) {
-      console.log('fet');
       setIsPostsFetched(false);
       setPage((prev) => (prev += 1));
     }
@@ -63,13 +65,18 @@ export default function ExplorePage() {
   return (
     <BaseLayout>
       <div className="flex-1 lg:flex sm:ml-[76px] lg:ml-[240px] sm:flex sm:flex-col">
-        <div className="p-4">
-          <div className="grid grid-cols-3 gap-1 mb-20">
+        <div className="p-4 w-full">
+          <div className="grid grid-cols-3 gap-1 mb-2">
             {explore &&
-              explore.map((post) => (
-                <ExploreCard key={post.id} post={post}></ExploreCard>
+              explore.map((post, index) => (
+                <ExploreCard key={index} post={post}></ExploreCard>
               ))}
           </div>
+          {isLoading && (
+            <div className="flex justify-center items-center w-full my-10">
+              <Loading></Loading>
+            </div>
+          )}
         </div>
       </div>
     </BaseLayout>

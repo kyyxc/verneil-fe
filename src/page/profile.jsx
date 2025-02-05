@@ -86,7 +86,8 @@ export default function ProfilePage() {
                   setIsOpenFollowers={setIsOpenFollowers}
                   setIsOpenFollowing={setIsOpenFollowing}
                 ></UserProfileHeader>
-                <UserProfileStat user={user}></UserProfileStat>
+                <UserProfileStat user={user}                  setIsOpenFollowers={setIsOpenFollowers}
+                  setIsOpenFollowing={setIsOpenFollowing}></UserProfileStat>
                 <hr className="mt-2.5 lg:mt-10 border-t border-t-btn" />
                 <div className="mt-10">
                   <UserPost user={user}></UserPost>

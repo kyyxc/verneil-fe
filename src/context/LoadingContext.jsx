@@ -8,10 +8,13 @@ export const LoadingProvider = ({ children }) => {
     post: false,
     follow: "",
     search: false,
-    accept: false
+    accept: false,
+    getList: false,
+    getMessages: false,
+    explore: false,
   });
   return (
-    <LoadingContext.Provider value={{loading, setLoading}}>
+    <LoadingContext.Provider value={{ loading, setLoading }}>
       {children}
     </LoadingContext.Provider>
   );

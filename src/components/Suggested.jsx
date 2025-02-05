@@ -13,8 +13,8 @@ const Suggested = ({ suggested, handleFollow, loading }) => {
       }`}
     >
       <h5 className="text-sm text-1">Suggested for you</h5>
-      {suggested.map((user) => (
-        <SuggestedList key={user.id} user={user} handleFollow={handleFollow} loading={loading} />
+      {suggested.map((user, index) => (
+        <SuggestedList key={index} user={user} handleFollow={handleFollow} loading={loading} />
       ))}
     </div>
   );

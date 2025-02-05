@@ -23,8 +23,8 @@ const UserPost = ({ user }) => {
     return (
       <div className="grid grid-cols-3 gap-1 mb-20">
         {user.posts &&
-          user.posts.map((post) => (
-            <div className="h-52 sm:h-72 lg:h-96" key={post.id}>
+          user.posts.map((post, index) => (
+            <div className="h-52 sm:h-72 lg:h-96 xl:h-[600px]" key={index}>
               <Link to={`/show/${post.id}`}>
                 <img
                   src={post.media[0].url_path}
