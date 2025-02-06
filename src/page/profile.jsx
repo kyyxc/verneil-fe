@@ -1,6 +1,6 @@
-import { ax } from "../api/authentication";
+import { ax, Logout } from "../api/authentication";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { userProfileProvider } from "../context/ProfileContext";
 import BaseLayout from "../components/Layout/baseLayout";
 import UserProfileStat from "../components/UserProfileStat";
@@ -21,12 +21,17 @@ export default function ProfilePage() {
     isOpenSettings,
     setIsOpenSettings,
   } = userProfileProvider();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUser();
     getFollowers();
     getfollowing();
   }, [username]);
+
+  const handleLogout = () => {
+    Logout(navigate);
+  };
 
   const getFollowers = async () => {
     try {
@@ -180,10 +185,16 @@ export default function ProfilePage() {
 
             {isOpenSettings && (
               <div className="fixed flex  flex-col z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-lg w-96 bg-btn text-sm">
-                <Link to='/saved' onClick={() => setIsOpenSettings(false)} className="w--full text-center py-3 border-b border-b-gray-500 cursor-pointer">
+                <Link
+                  to="/saved"
+                  onClick={() => setIsOpenSettings(false)}
+                  className="w--full text-center py-3 border-b border-b-gray-500 cursor-pointer"
+                >
                   Saved
                 </Link>
-
+                <div className="w--full text-center py-3 border-b border-b-gray-500 cursor-pointer" onClick={handleLogout}>
+                  Logout
+                </div>
                 <div
                   className="w--full text-center py-3 cursor-pointer"
                   onClick={() => setIsOpenSettings(false)}

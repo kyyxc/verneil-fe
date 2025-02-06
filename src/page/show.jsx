@@ -3,7 +3,7 @@ import HomePage from "./home";
 import { useEffect, useState } from "react";
 import { ax } from "../api/authentication";
 import { usePostContext } from "../context/PostProvide";
-import { LikePost } from "../api/post";
+import { LikePost, SavePost } from "../api/post";
 import PostDetail from "../components/PostDetail";
 import ExplorePage from "./explore";
 import { useRouteContext } from "../context/RouteContext";
@@ -51,6 +51,10 @@ export default function ShowPage() {
     LikePost(id, setPosts, setPost);
   };
 
+  const handleSave = (id) => {
+    SavePost(id, setPosts, setPost);
+  };
+
   const handleDeletePost = async (id) => {
     try {
       const res = await ax.delete(`api/v1/posts/${id}`, {
@@ -91,6 +95,7 @@ export default function ShowPage() {
               post={post}
               setPost={setPost}
               handleLike={handleLike}
+              handleSave={handleSave}
               handleDeletePost={handleDeletePost}
               isOpenMenu={isOpenMenu}
               setIsOpenMenu={setIsOpenMenu}

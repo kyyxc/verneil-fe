@@ -140,7 +140,7 @@ const Create = ({ setCreateStatus }) => {
                   name="caption"
                   className="w-full mt-4 h-40 overflow-y-auto overflow-x-hidden outline-none bg-btn text-1 placeholder:text-1 resize-none"
                 ></textArea>
-                <button className="text-end flex justify-end self-end text-blue-600">
+                <button className="text-end flex justify-end w-full sm:p-5 text-blue-600">
                   <p>Submit</p>
                 </button>
               </form>

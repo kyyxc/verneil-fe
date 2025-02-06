@@ -38,19 +38,26 @@ export const LikePost = async (id, setPosts, setPost = null) => {
   }
 };
 
-export const SavePost = async (id, setPosts) => {
+export const SavePost = async (id, setPosts, setPost = null) => {
   try {
-    const res = await ax.post(`/api/v1/posts/${id}/save`, {}, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+    const res = await ax.post(
+      `/api/v1/posts/${id}/save`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       }
-    });
+    );
     const is_save = res.data.status == "Saved";
-    console.log(res.data.status);
-    
+
     setPosts((prev) =>
       prev.map((post) => (post.id == id ? { ...post, is_save: is_save } : post))
     );
+
+    if (setPost) {
+      setPost((prev) => ({ ...prev, is_save: is_save }));
+    }
   } catch (err) {
     console.log(err);
   }

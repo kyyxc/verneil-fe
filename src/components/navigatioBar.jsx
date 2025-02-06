@@ -4,6 +4,7 @@ import { usePostContext } from "../context/PostProvide";
 import Create from "./create";
 import SideBar from "./SideBar";
 import SearchPanel from "./SearchPanel";
+import { ax, Logout } from "../api/authentication";
 
 export default function NavigationBar() {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -21,14 +22,13 @@ export default function NavigationBar() {
   const location = useLocation();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/login");
+    Logout(navigate);
   };
 
   const handleSeachTab = () => {
     setIsSearching(!isSearching);
-    location.pathname == "/message" || matchPath("/message/:username", location.pathname)
+    location.pathname == "/message" ||
+    matchPath("/message/:username", location.pathname)
       ? setTabStatus(true)
       : setTabStatus(!tabStatus);
   };

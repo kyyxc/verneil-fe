@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import { ax } from "../api/authentication";
 import { Link } from "react-router-dom";
 
-const PostComment = ({ post, handleLike, setDeleteCommentId, user }) => {
+const PostComment = ({
+  post,
+  handleLike,
+  setDeleteCommentId,
+  user,
+  handleSave,
+}) => {
   const [body, setBody] = useState("");
 
   const handleComment = async (e) => {
@@ -66,11 +72,14 @@ const PostComment = ({ post, handleLike, setDeleteCommentId, user }) => {
               </div>
               {comment.user_id == user.id && (
                 <i
-                className="bi bi-three-dots mr-5"
-                onClick={() =>
-                  setDeleteCommentId({ id: comment.id, user_id: comment.user.id })
-                }
-              ></i>
+                  className="bi bi-three-dots mr-5"
+                  onClick={() =>
+                    setDeleteCommentId({
+                      id: comment.id,
+                      user_id: comment.user.id,
+                    })
+                  }
+                ></i>
               )}
             </div>
           ))}
@@ -85,7 +94,14 @@ const PostComment = ({ post, handleLike, setDeleteCommentId, user }) => {
             onClick={() => handleLike(post.id)}
           ></i>
 
-          <i className="bi bi-bookmark text-[26px]"></i>
+          <i
+            className={`bi ${
+              post.is_save
+                ? "text-yellow-500 bi-bookmark-fill"
+                : "text-1 bi-bookmark "
+            } text-[26px]`}
+            onClick={() => handleSave(post.id)}
+          ></i>
         </div>
         <p className="px-2 text-sm text-1">{post.likes_count} Likes</p>
         <p className="px-2 text-sm text-slate-400">{post.created_at_ago}</p>

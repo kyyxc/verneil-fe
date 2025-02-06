@@ -13,6 +13,7 @@ const PostDetail = ({
   deleteCommentId,
   setDeleteCommentId,
   setPost,
+  handleSave,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const user = JSON.parse(localStorage.getItem("user"));
@@ -79,6 +80,7 @@ const PostDetail = ({
           <PostComment
             post={post}
             handleLike={handleLike}
+            handleSave={handleSave}
             setDeleteCommentId={setDeleteCommentId}
             user={user}
           ></PostComment>
