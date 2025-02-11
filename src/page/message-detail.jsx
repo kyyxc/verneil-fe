@@ -17,10 +17,13 @@ export default function MessageDetailPage() {
   const [images, setImages] = useState(null);
   const [receiver, setReceiver] = useState({});
   const { loading, setLoading } = useLoadingContext();
+  const [isNotFound, setIsNotFound] = useState(false);
 
   useEffect(() => {
-    getMessages();
-    getDetailUser();
+    if (username) {
+      getMessages();
+      getDetailUser();
+    }
   }, [username]);
 
   useEffect(() => {
@@ -40,7 +43,9 @@ export default function MessageDetailPage() {
         },
       });
       setMessages(res.data.message);
+      setIsNotFound(false);
     } catch (err) {
+      setIsNotFound(true);
       console.log(err);
     } finally {
       setLoading((prev) => ({ ...prev, getMessages: false }));
@@ -55,7 +60,9 @@ export default function MessageDetailPage() {
         },
       });
       setReceiver(res.data);
+      setIsNotFound(false);
     } catch (err) {
+      setIsNotFound(true);
       console.log(err);
     }
   };
@@ -151,6 +158,19 @@ export default function MessageDetailPage() {
               </form>
             </div>
           </div>
+        </div>
+      )}
+      {isNotFound && (
+        <div
+          className={`sm:ml-[76px] lg:ml-[240px] flex flex-col justify-center items-center h-screen w-full`}
+        >
+          <h1 className="text-3xl font-semibold my-4">
+            Sorry, this page isn't available.
+          </h1>
+          <p className="text-base">
+            The link you followed may be broken, or the page may have been
+            removed. Go back to Verneil
+          </p>
         </div>
       )}
     </MessagePage>

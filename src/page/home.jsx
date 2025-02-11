@@ -26,6 +26,8 @@ export default function HomePage() {
   useEffect(() => {
     getSuggested();
     getRequest();
+
+    document.title = 'Verneil'
   }, []);
 
   useEffect(() => {

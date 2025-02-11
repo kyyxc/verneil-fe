@@ -21,7 +21,7 @@ export const Logout = async (navigate) => {
   localStorage.removeItem("user");
 
   try {
-    const res = await ax.post(
+    const res = await ax.delete(
       "api/v1/auth/logout",
       {},
       {

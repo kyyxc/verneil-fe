@@ -13,6 +13,7 @@ export default function ProfilePage() {
   const { user, setUser } = usePostContext();
   const [followers, setFollowers] = useState([]);
   const [following, setFollowing] = useState([]);
+  const [isNotFound, setIsNotFound] = useState(false);
   const {
     isOpenFollowers,
     setIsOpenFollowers,
@@ -25,9 +26,20 @@ export default function ProfilePage() {
 
   useEffect(() => {
     getUser();
+  }, [username]);
+
+  useEffect(() => {
     getFollowers();
     getfollowing();
-  }, [username]);
+  }, [user]);
+
+  useEffect(() => {
+    if(isNotFound) {
+      document.title = "Page Not Found"
+    } else {
+      document.title = 'Verneil'
+    }
+  }, [isNotFound]);
 
   const handleLogout = () => {
     Logout(navigate);
@@ -42,6 +54,7 @@ export default function ProfilePage() {
       });
       setFollowers(res.data.followers);
     } catch (err) {
+      setIsNotFound(true);
       console.log(err);
     }
   };
@@ -55,6 +68,7 @@ export default function ProfilePage() {
       });
       setFollowing(res.data.following.filter((user) => !user.is_requested));
     } catch (err) {
+      setIsNotFound(true);
       console.log(err);
     }
   };
@@ -68,6 +82,7 @@ export default function ProfilePage() {
       });
       setUser(res.data);
     } catch (err) {
+      setIsNotFound(true);
       console.log(err);
     }
   };
@@ -75,7 +90,7 @@ export default function ProfilePage() {
   return (
     <>
       <BaseLayout>
-        {user && (
+        {user.username && (
           <>
             <div
               className={`flex-1 lg:flex sm:ml-[76px] lg:ml-[240px] sm:flex sm:flex-col ${
@@ -192,7 +207,10 @@ export default function ProfilePage() {
                 >
                   Saved
                 </Link>
-                <div className="w--full text-center py-3 border-b border-b-gray-500 cursor-pointer" onClick={handleLogout}>
+                <div
+                  className="w--full text-center py-3 border-b border-b-gray-500 cursor-pointer"
+                  onClick={handleLogout}
+                >
                   Logout
                 </div>
                 <div
@@ -204,6 +222,21 @@ export default function ProfilePage() {
               </div>
             )}
           </>
+        )}
+        {isNotFound && (
+          <div
+            className={`sm:ml-[76px] lg:ml-[240px] flex flex-col justify-center items-center h-screen w-full ${
+              isOpenFollowers || isOpenFollowing || isOpenSettings
+                ? "opacity-30 pointer-events-none"
+                : ""
+            }`}
+          >
+            <h1 className="text-3xl font-semibold my-4">Sorry, this page isn't available.</h1>
+            <p className="text-base">
+              The link you followed may be broken, or the page may have been
+              removed. Go back to Verneil
+            </p>
+          </div>
         )}
       </BaseLayout>
     </>
