@@ -16,6 +16,7 @@ import { LoadingProvider } from "./context/LoadingContext";
 import MessageDetailPage from "./page/message-detail";
 import SavedPage from "./page/saved";
 import { SavedProvide } from "./context/SavedContext";
+import ReelsPage from "./page/reels";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
                     <Route path="/explore" element={<ExplorePage />}></Route>
                     <Route path="/saved" element={<SavedPage />}></Route>
                     <Route path="/message" element={<MessagePage />}></Route>
+                    <Route path="/reels" element={<ReelsPage />}></Route>
                     <Route
                       path="/account/edit"
                       element={<EditProfilePage />}

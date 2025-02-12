@@ -17,11 +17,14 @@ const SideBar = ({
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem("user"));
   const { isOpenLike, isOpenMenu, isDelete, isSearching } = usePostContext();
-  const { isOpenFollowers, isOpenFollowing, isOpenSettings } = userProfileProvider();
+  const { isOpenFollowers, isOpenFollowing, isOpenSettings } =
+    userProfileProvider();
   return (
     <div
       className={` ${
-        tabStatus ? "w-full sm:w-[76px] bg-black" : "w-full sm:w-[76px] lg:w-[240px] bg-black"
+        tabStatus
+          ? "w-full sm:w-[76px] bg-black"
+          : "w-full sm:w-[76px] lg:w-[240px] bg-black"
       } ${
         isDelete ||
         isOpenLike ||
@@ -29,7 +32,7 @@ const SideBar = ({
         createStatus ||
         isOpenFollowers ||
         isOpenFollowing ||
-        isOpenSettings 
+        isOpenSettings
           ? "opacity-20 pointer-events-none"
           : ""
       } h-[50px] z-50  bottom-0 sm:h-full fixed bg-black flex sm:flex-col sm:border-r sm:transition-all  sm:duration-500 sm:border-r-btn`}
@@ -65,7 +68,9 @@ const SideBar = ({
             icon="bi-search"
             tabStatus={tabStatus}
             label="Search"
-            className={`${tabStatus && isSearching ? 'border' : ''} hidden sm:flex`}
+            className={`${
+              tabStatus && isSearching ? "border" : ""
+            } hidden sm:flex`}
           />
           <NavLink
             to="/explore"
@@ -78,6 +83,12 @@ const SideBar = ({
             icon="bi-chat"
             tabStatus={tabStatus}
             label="Message"
+          />
+          <NavLink
+            to="/reels"
+            icon="bi-record-btn"
+            tabStatus={tabStatus}
+            label="Reels"
           />
           <NavLink
             onClick={() => setCreateStatus(true)}
