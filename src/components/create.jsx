@@ -4,7 +4,9 @@ import { ax } from "../api/authentication";
 
 const Create = ({ setCreateStatus }) => {
   const [images, setImages] = useState([]);
+  const [video, setVideo] = useState(null);
   const [previewImage, setPreviewImage] = useState();
+  const [previewVideo, setPreviewVideo] = useState();
   const user = JSON.parse(localStorage.getItem("user"));
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigate = useNavigate();
@@ -19,26 +21,22 @@ const Create = ({ setCreateStatus }) => {
 
   const handleSelectedImage = (e) => {
     const files = e.target.files;
-    setImages(files);
+    if (files[0].type == "video/mp4") {
+      setVideo(files[0]);
 
-    const imageUrls = Array.from(files).map((file) =>
-      URL.createObjectURL(file)
-    );
-    setPreviewImage(imageUrls);
+      const videoUrl = URL.createObjectURL(files[0]);
+      setPreviewVideo(videoUrl);
+    } else {
+      setImages(files);
+      const imageUrls = Array.from(files).map((file) =>
+        URL.createObjectURL(file)
+      );
+      setPreviewImage(imageUrls);
+    }
   };
-
-  useEffect(() => {
-    console.log(previewImage);
-  }, [previewImage]);
 
   const handleCreatePost = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-
-    Array.from(images).forEach((file, index) => {
-      formData.append(`files[${index}]`, file);
-    });
-    console.log(formData);
 
     const data = {
       caption: e.target.caption.value,
@@ -46,7 +44,7 @@ const Create = ({ setCreateStatus }) => {
     };
 
     try {
-      const res = await ax.post("/api/v1/posts", data, {
+      await ax.post("/api/v1/posts", data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",
@@ -54,6 +52,30 @@ const Create = ({ setCreateStatus }) => {
       });
       setCreateStatus(false);
       setPreviewImage([]);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handlePostReel = async (e) => {
+    e.preventDefault();
+
+    const data = {
+      caption: e.target.caption.value,
+      video: video,
+      duration: 60,
+    };
+
+    try {
+      await ax.post("/api/v1/reels", data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setCreateStatus(false);
+      setPreviewVideo(null);
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -139,6 +161,43 @@ const Create = ({ setCreateStatus }) => {
                 <textArea
                   name="caption"
                   className="w-full mt-4 h-40 overflow-y-auto overflow-x-hidden outline-none bg-btn text-1 placeholder:text-1 resize-none"
+                ></textArea>
+                <button className="text-end flex justify-end w-full sm:p-5 text-blue-600">
+                  <p>Submit</p>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {previewVideo && (
+        <div className="fixed z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-xl w-[400px] h-[300px] sm:w-[80%] sm:h-[40%] md:w-[800px] md:h-[500px] ">
+          <div className="h-10 w-full flex items-center justify-center bg-black font-xl font-semibold text-center rounded-t-lg">
+            Create Post
+          </div>
+          <div className="flex h-full">
+            <div className="w-[60%] relative">
+              <video
+                src={previewVideo}
+                alt=""
+                className="object-cover w-full h-full"
+                controls
+              />
+            </div>
+            <div className="flex-1 bg-btn p-4 h-full">
+              <div className="flex items-center">
+                <img
+                  src={`http://localhost:8000/storage/${user.avatar}`}
+                  alt="Profile"
+                  className="w-[26px] h-[26px] rounded-full lg:ml-1.5"
+                />
+                <h3 className="ml-3 text-sm font-semibold">{user.username}</h3>
+              </div>
+              <form onSubmit={handlePostReel} className="w-full h-full">
+                <textArea
+                  name="caption"
+                  className="w-full h-[70%] lg:h-[80%] sm:h-[60%] mt-4 overflow-y-auto overflow-x-hidden outline-none bg-btn text-1 placeholder:text-1 resize-none"
                 ></textArea>
                 <button className="text-end flex justify-end w-full sm:p-5 text-blue-600">
                   <p>Submit</p>
