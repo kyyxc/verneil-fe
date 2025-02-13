@@ -1,24 +1,21 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import BaseLayout from "../components/Layout/baseLayout";
-import videoFile from "../../public/videos/video4.mp4";
 import { ax } from "../api/authentication";
 import Loading from "../components/Loading";
+import { useLoadingContext } from "../context/LoadingContext";
 
 const ReelsPage = () => {
   const [reels, setReels] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
-  const [isHasMorePost, setIsHasMorePost] = useState(true);
+  const { loading, setLoading } = useLoadingContext();
+  // const [page, setPage] = useState(0);
+  // const [isHasMorePost, setIsHasMorePost] = useState(true);
 
   useEffect(() => {
     getReels();
   }, []);
 
-  useEffect(() => {
-    console.log(reels);
-  }, [reels]);
-
   const getReels = async (page = 0) => {
+    setLoading((prev) => ({ ...prev, reel: true }));
     try {
       setLoading(true);
       const res = await ax.get(`/api/v1/reels?page=${page}&size=2`, {
@@ -26,21 +23,25 @@ const ReelsPage = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      console.log(res.data.reels);
       setReels((prev) => [...prev, ...res.data.reels]);
     } catch (err) {
       console.log(err);
     } finally {
-      setLoading(false);
+      setLoading((prev) => ({ ...prev, reel: false }));
     }
   };
 
   return (
     <BaseLayout>
-      <div className="sm:ml-[76px] lg:ml-[240px] flex flex-col w-full justify-center items-center mt-2">
+      <div
+        className={`${
+          loading.createReel || loading.createPost ? "pointer-events-none" : ""
+        } sm:ml-[76px] lg:ml-[240px] flex flex-col w-full justify-center items-center mt-2`}
+      >
         {reels &&
-          reels.map((reel) => (
+          reels.map((reel, index) => (
             <video
+              key={index}
               width="400"
               className="h-screen rounded-xl my-4 shadow shadow-white/20"
               autoPlay
@@ -54,7 +55,7 @@ const ReelsPage = () => {
               />
             </video>
           ))}
-        {loading && <Loading></Loading>}
+        {loading.reel && <Loading></Loading>}
       </div>
     </BaseLayout>
   );

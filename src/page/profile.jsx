@@ -7,6 +7,8 @@ import UserProfileStat from "../components/UserProfileStat";
 import UserPost from "../components/UserPost";
 import UserProfileHeader from "../components/UserProfileHeader";
 import { usePostContext } from "../context/PostProvide";
+import { useLoadingContext } from "../context/LoadingContext";
+import Loading from "../components/Loading";
 
 export default function ProfilePage() {
   const { username } = useParams();
@@ -23,6 +25,7 @@ export default function ProfilePage() {
     setIsOpenSettings,
   } = userProfileProvider();
   const navigate = useNavigate();
+  const { loading, setLoading } = useLoadingContext();
 
   useEffect(() => {
     getUser();
@@ -34,10 +37,10 @@ export default function ProfilePage() {
   }, [user]);
 
   useEffect(() => {
-    if(isNotFound) {
-      document.title = "Page Not Found"
+    if (isNotFound) {
+      document.title = "Page Not Found";
     } else {
-      document.title = 'Verneil'
+      document.title = "Verneil";
     }
   }, [isNotFound]);
 
@@ -75,6 +78,7 @@ export default function ProfilePage() {
 
   const getUser = async () => {
     try {
+      setLoading((prev) => ({ ...prev, getUser: true }));
       const res = await ax.get(`api/v1/users/${username}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -84,6 +88,8 @@ export default function ProfilePage() {
     } catch (err) {
       setIsNotFound(true);
       console.log(err);
+    } finally {
+      setLoading((prev) => ({ ...prev, getUser: false }));
     }
   };
 
@@ -94,6 +100,8 @@ export default function ProfilePage() {
           <>
             <div
               className={`flex-1 lg:flex sm:ml-[76px] lg:ml-[240px] sm:flex sm:flex-col ${
+                loading.getUser ? "opacity-50" : "opacity-100"
+              } ${
                 isOpenFollowers || isOpenFollowing || isOpenSettings
                   ? "opacity-30 pointer-events-none"
                   : ""
@@ -231,11 +239,18 @@ export default function ProfilePage() {
                 : ""
             }`}
           >
-            <h1 className="text-3xl font-semibold my-4">Sorry, this page isn't available.</h1>
+            <h1 className="text-3xl font-semibold my-4">
+              Sorry, this page isn't available.
+            </h1>
             <p className="text-base">
               The link you followed may be broken, or the page may have been
               removed. Go back to Verneil
             </p>
+          </div>
+        )}
+        {loading.getUser && (
+          <div className="left-1/2 z-50 top-1/2 transform translate-x-1/2 translate-y-1/2 absolute">
+            <Loading></Loading>
           </div>
         )}
       </BaseLayout>

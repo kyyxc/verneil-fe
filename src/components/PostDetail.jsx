@@ -93,7 +93,10 @@ const PostDetail = ({
             <>
               <div
                 className="w--full text-center py-3 border-b border-b-gray-500 text-red-500"
-                onClick={() => handleDeletePost(post.id)}
+                onClick={() => {
+                  handleDeletePost(post.id)
+                  setIsOpenMenu(false)
+                }}
               >
                 Delete
               </div>

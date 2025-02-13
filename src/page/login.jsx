@@ -37,9 +37,9 @@ export default function LoginPage() {
 
   return (
     <div className="flex items-center justify-center h-screen text-1 font-apple">
-      <div className="lg:block hidden w-[50%] mr-10">
+      {/* <div className="lg:block hidden w-[50%] mr-10">
         <img src="images/bg-login.jpg" alt="" className="rounded-md" />
-      </div>
+      </div> */}
 
       <div className="border w-96 h-96 p-2 border-btn">
         <div className="font-caveat text-5xl text-center mt-10">Verneil</div>

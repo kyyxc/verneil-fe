@@ -12,6 +12,10 @@ export const LoadingProvider = ({ children }) => {
     getList: false,
     getMessages: false,
     explore: false,
+    createPost: false,
+    createReel: false,
+    reel: false,
+    getUser: false,
   });
   return (
     <LoadingContext.Provider value={{ loading, setLoading }}>
